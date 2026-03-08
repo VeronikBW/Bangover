@@ -5,6 +5,17 @@ from enum import Enum
 
 db = SQLAlchemy()
 
+
+class roleUser(Enum):
+    ADMIN = "admin"
+    USER = "user"
+
+
+class statusUser(Enum):
+    ACTIVE = "active"
+    INACTIVE = "inactive"
+
+
 class categoryActivity(Enum):
     SPORTS = "sports"
     MUSIC = "music"
@@ -12,33 +23,34 @@ class categoryActivity(Enum):
     FOOD = "food"
     TRAVEL = "travel"
 
-class roleUser(Enum):
-    ADMIN = "admin"
-    USER = "user"
 
 class User(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(String(120), unique=False, nullable=False)
-    role: Mapped[roleUser] = mapped_column(db.Enum(roleUser), nullable=False)
     nickname: Mapped[str] = mapped_column(String(120), unique=True, nullable=False)
     password: Mapped[str] = mapped_column(nullable=False)
-    is_active: Mapped[bool] = mapped_column(Boolean(), nullable=False)
+    avatar_url: Mapped[str] = mapped_column(String(250), unique=False, nullable=True)
+    status: Mapped[statusUser] = mapped_column(db.Enum(statusUser), nullable=False)
+    role: Mapped[roleUser] = mapped_column(db.Enum(roleUser), nullable=False)
 
     def serialize(self):
         return {
             "id": self.id,
             "name": self.name,
             "nickname": self.nickname,
-            "is_active": self.is_active
+            "avatar_url": self.avatar_url,
+            "status": self.status,
+            "role": self.role
         }
-    
+
+
 class Activity(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(String(120), unique=False, nullable=False)
     category: Mapped[categoryActivity] = mapped_column(db.Enum(categoryActivity), nullable=False)
-    description: Mapped[str] = mapped_column(String(250), unique=False, nullable=True)
+    description: Mapped[str] = mapped_column(String(500), unique=False, nullable=True)
     image_url: Mapped[str] = mapped_column(String(250), unique=False, nullable=True)
-    is_active: Mapped[bool] = mapped_column(Boolean(), nullable=False)
+    code: Mapped[str] = mapped_column(String(50), unique=True, nullable=False)
 
     def serialize(self):
         return {
@@ -47,7 +59,24 @@ class Activity(db.Model):
             "category": self.category,
             "description": self.description,
             "image_url": self.image_url,
-            "is_active": self.is_active
-        }   
+            "code": self.code,
+        }
+
+class Favorite(db.Model):
+    id: Mapped[int] = mapped_column(primary_key=True)
+    user_id: Mapped[int] = mapped_column(db.ForeignKey('user.id'), nullable=False)
+    activity_id: Mapped[int] = mapped_column(db.ForeignKey('activity.id'), nullable=False)
+
+    user: Mapped[User] = db.relationship('User', back_populates='favorites')
+    activity: Mapped[Activity] = db.relationship('Activity', back_populates='favorites')
+
+    def __repr__(self):
+        return f"<Favorite user_id={self.user_id} activity_id={self.activity_id}>"
     
-    
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "activity_id": self.activity_id,
+        }

@@ -19,3 +19,7 @@ def handle_hello():
     }
 
     return jsonify(response_body), 200
+
+@api.route('/health-check', methods=['GET'])
+def health_check():
+    return jsonify({"message": "Ok!"}), 200
