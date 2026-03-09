@@ -2,6 +2,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import String, Boolean
 from sqlalchemy.orm import Mapped, mapped_column
 from enum import Enum
+from typing import List
 
 db = SQLAlchemy()
 
@@ -17,21 +18,33 @@ class statusUser(Enum):
 
 
 class categoryActivity(Enum):
-    SPORTS = "sports"
+    DRABBLES = "drabbles"
+    NON_SEX = "non-sex"
+    QUOTES = "quotes"
+    SENSIBLE_CONTENT = "sensible-content"
+    EXPLICIT = "explicit"
+    AGNUS_DEI = "agnus-dei"
+    SPECIAL = "special"
+    RECORDIS = "recordis"
+    GALLERY = "gallery"
     MUSIC = "music"
-    ART = "art"
-    FOOD = "food"
-    TRAVEL = "travel"
 
 
 class User(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
-    name: Mapped[str] = mapped_column(String(120), unique=False, nullable=False)
-    nickname: Mapped[str] = mapped_column(String(120), unique=True, nullable=False)
+    name: Mapped[str] = mapped_column(
+        String(120), unique=False, nullable=False)
+    nickname: Mapped[str] = mapped_column(
+        String(120), unique=True, nullable=False)
     password: Mapped[str] = mapped_column(nullable=False)
-    avatar_url: Mapped[str] = mapped_column(String(250), unique=False, nullable=True)
-    status: Mapped[statusUser] = mapped_column(db.Enum(statusUser), nullable=False)
+    avatar_url: Mapped[str] = mapped_column(
+        String(250), unique=False, nullable=True)
+    status: Mapped[statusUser] = mapped_column(
+        db.Enum(statusUser), nullable=False)
     role: Mapped[roleUser] = mapped_column(db.Enum(roleUser), nullable=False)
+
+    favorites: Mapped[List['Favorite']] = db.relationship(
+        'Favorite', back_populates='user')
 
     def serialize(self):
         return {
@@ -46,11 +59,18 @@ class User(db.Model):
 
 class Activity(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
-    name: Mapped[str] = mapped_column(String(120), unique=False, nullable=False)
-    category: Mapped[categoryActivity] = mapped_column(db.Enum(categoryActivity), nullable=False)
-    description: Mapped[str] = mapped_column(String(500), unique=False, nullable=True)
-    image_url: Mapped[str] = mapped_column(String(250), unique=False, nullable=True)
+    name: Mapped[str] = mapped_column(
+        String(120), unique=False, nullable=False)
+    category: Mapped[categoryActivity] = mapped_column(
+        db.Enum(categoryActivity), nullable=False)
+    description: Mapped[str] = mapped_column(
+        String(500), unique=False, nullable=True)
+    image_url: Mapped[str] = mapped_column(
+        String(250), unique=False, nullable=True)
     code: Mapped[str] = mapped_column(String(50), unique=True, nullable=False)
+
+    favorites: Mapped[List['Favorite']] = db.relationship(
+        'Favorite', back_populates='activity')
 
     def serialize(self):
         return {
@@ -62,17 +82,20 @@ class Activity(db.Model):
             "code": self.code,
         }
 
+
 class Favorite(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
-    user_id: Mapped[int] = mapped_column(db.ForeignKey('user.id'), nullable=False)
-    activity_id: Mapped[int] = mapped_column(db.ForeignKey('activity.id'), nullable=False)
+    user_id: Mapped[int] = mapped_column(
+        db.ForeignKey('user.id'), nullable=False)
+    activity_id: Mapped[int] = mapped_column(
+        db.ForeignKey('activity.id'), nullable=False)
 
     user: Mapped[User] = db.relationship('User', back_populates='favorites')
-    activity: Mapped[Activity] = db.relationship('Activity', back_populates='favorites')
+    activity: Mapped[Activity] = db.relationship(
+        'Activity', back_populates='favorites')
 
     def __repr__(self):
         return f"<Favorite user_id={self.user_id} activity_id={self.activity_id}>"
-    
 
     def serialize(self):
         return {

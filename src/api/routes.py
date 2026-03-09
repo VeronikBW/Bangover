@@ -18,8 +18,8 @@ def handle_hello():
         "message": "Hello! I'm a message that came from the backend, check the network tab on the google inspector and you will see the GET request"
     }
 
-    return jsonify(response_body), 200
+    return jsonify(response_body)
 
 @api.route('/health-check', methods=['GET'])
 def health_check():
-    return jsonify({"message": "Ok!"}), 200
+    return jsonify({"status": "OK"}), 200
