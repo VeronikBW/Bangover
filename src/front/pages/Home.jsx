@@ -1,10 +1,11 @@
-import React, { useEffect } from "react"
-import rigoImageUrl from "../assets/img/rigo-baby.jpg";
+import React, { useEffect, useState } from "react"
 import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
+import rigoImageUrl from "../assets/img/rigo-baby.jpg";
 
 export const Home = () => {
 
 	const { store, dispatch } = useGlobalReducer()
+	const [error, setError] = useState(null)
 
 	const loadMessage = async () => {
 		try {
@@ -19,11 +20,10 @@ export const Home = () => {
 
 			return data
 
-		} catch (error) {
-			if (error.message) throw new Error(
-				`Could not fetch the message from the backend.
-				Please check if the backend is running and the backend port is public.`
-			);
+		} catch (err) {
+			setError(
+				`Could not fetch the message from the backend. Please check that the backend is running and that VITE_BACKEND_URL is correct.`
+			)
 		}
 
 	}
