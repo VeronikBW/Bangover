@@ -1,4 +1,10 @@
-from flask import jsonify, url_for
+from flask import jsonify, url_for, Blueprint, request
+import re
+import base64
+import os
+from flask_jwt_extended import get_jwt_identity
+from functools import wraps
+
 
 class APIException(Exception):
     status_code = 400
@@ -39,3 +45,22 @@ def generate_sitemap(app):
         <p>Start working on your project by following the <a href="https://start.4geeksacademy.com/starters/full-stack" target="_blank">Quick Start</a></p>
         <p>Remember to specify a real endpoint path like: </p>
         <ul style="text-align: left;">"""+links_html+"</ul></div>"
+
+def admin_required(fn):
+    @wraps(fn)
+    def wrapper(*args, **kwargs):
+        from api.models import User
+        user_id = get_jwt_identity()
+
+        if not user_id:
+            return jsonify({"message": "Authentication required"}), 401
+
+        user = User.query.get(user_id)
+        if not user:
+            return jsonify({"message": "User not found"}), 404
+        
+        if user.role.name != 'ADMIN':
+            return jsonify({"message": "Admin privileges required"}), 403
+
+        return fn(*args, **kwargs)
+    return wrapper
