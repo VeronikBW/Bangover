@@ -1,5 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import String, Boolean
+from sqlalchemy import String
 from sqlalchemy.orm import Mapped, mapped_column
 from enum import Enum
 from typing import List
@@ -36,7 +36,7 @@ class User(db.Model):
         String(120), unique=False, nullable=False)
     nickname: Mapped[str] = mapped_column(
         String(120), unique=True, nullable=False)
-    password: Mapped[str] = mapped_column(nullable=False)
+    password: Mapped[str] = mapped_column(String(128), nullable=False)
     avatar_url: Mapped[str] = mapped_column(
         String(250), unique=False, nullable=True)
     status: Mapped[statusUser] = mapped_column(
@@ -52,8 +52,8 @@ class User(db.Model):
             "name": self.name,
             "nickname": self.nickname,
             "avatar_url": self.avatar_url,
-            "status": self.status,
-            "role": self.role
+            "status": self.status.value,
+            "role": self.role.value
         }
 
 
@@ -76,7 +76,7 @@ class Activity(db.Model):
         return {
             "id": self.id,
             "name": self.name,
-            "category": self.category,
+            "category": self.category.value,
             "description": self.description,
             "image_url": self.image_url,
             "code": self.code,
