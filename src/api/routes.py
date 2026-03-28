@@ -5,7 +5,7 @@ from flask import Flask, request, jsonify, url_for, Blueprint
 from api.models import db, User
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
-from api.models import User, Activity
+from api.models import User, Activity, Favorite
 
 api = Blueprint('api', __name__)
 
@@ -91,3 +91,79 @@ def get_activities():
     activities_list = [activity.serialize() for activity in activities]
     return jsonify(activities_list), 200
 
+@api.route('/activities/<int:activity_id>', methods=['GET'])
+def get_activity(activity_id):
+    activity = Activity.query.get(activity_id)
+    if activity:
+        return jsonify(activity.serialize()), 200
+    else:
+        return jsonify({"error": "Activity not found"}), 404
+    
+@api.route('/activities', methods=['POST'])
+def add_activity():
+    data = request.get_json()
+    new_activity = Activity(
+        name=data['name'],
+        category=data['category'],
+        description=data.get('description'),
+        image=data.get('image'),
+        code=data['code']
+    )
+    db.session.add(new_activity)
+    db.session.commit()
+    return jsonify(new_activity.serialize()), 201
+
+@api.route('/activities/<int:activity_id>', methods=['DELETE'])
+def delete_activity(activity_id):
+    activity = Activity.query.get(activity_id)
+    if not activity:
+        return jsonify({"error": "Activity not found"}), 404
+
+    db.session.delete(activity)
+    db.session.commit()
+    return jsonify({"message": "Activity deleted successfully"}), 200
+
+@api.route('/activities/<int:activity_id>', methods=['PUT'])
+def update_activity(activity_id):
+    activity = Activity.query.get(activity_id)
+    if not activity:
+        return jsonify({"error": "Activity not found"}), 404
+
+    data = request.get_json()
+    activity.name = data.get('name', activity.name)
+    activity.category = data.get('category', activity.category)
+    activity.description = data.get('description', activity.description)
+    activity.image = data.get('image', activity.image)
+    activity.code = data.get('code', activity.code)
+
+    db.session.commit()
+    return jsonify(activity.serialize()), 200
+
+# FAVORITES
+
+@api.route('/favorites', methods=['GET'])
+def get_favorites():
+    favorites = Favorite.query.all()
+    favorites_list = [favorite.serialize() for favorite in favorites]
+    return jsonify(favorites_list), 200
+
+@api.route('/favorites', methods=['POST'])
+def add_favorite():
+    data = request.get_json()
+    new_favorite = Favorite(
+        user_id=data['user_id'],
+        activity_id=data['activity_id']
+    )
+    db.session.add(new_favorite)
+    db.session.commit()
+    return jsonify(new_favorite.serialize()), 201
+
+@api.route('/favorites/<int:favorite_id>', methods=['DELETE'])
+def delete_favorite(favorite_id):
+    favorite = Favorite.query.get(favorite_id)
+    if not favorite:
+        return jsonify({"error": "Favorite not found"}), 404
+
+    db.session.delete(favorite)
+    db.session.commit()
+    return jsonify({"message": "Favorite deleted successfully"}), 200

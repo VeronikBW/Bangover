@@ -65,7 +65,7 @@ class Activity(db.Model):
         db.Enum(categoryActivity), nullable=False)
     description: Mapped[str] = mapped_column(
         String(500), unique=False, nullable=True)
-    image_url: Mapped[str] = mapped_column(
+    image: Mapped[str] = mapped_column(
         String(250), unique=False, nullable=True)
     code: Mapped[str] = mapped_column(String(50), unique=True, nullable=False)
 
@@ -78,7 +78,7 @@ class Activity(db.Model):
             "name": self.name,
             "category": self.category.value,
             "description": self.description,
-            "image_url": self.image_url,
+            "image": self.image,
             "code": self.code,
         }
 
