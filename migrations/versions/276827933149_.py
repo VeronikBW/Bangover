@@ -25,8 +25,8 @@ def upgrade():
     op.create_table('activity',
                     sa.Column('id', sa.Integer(), nullable=False),
                     sa.Column('name', sa.String(length=120), nullable=False),
-                    sa.Column('category', sa.Enum('SPORTS', 'MUSIC', 'ART', 'FOOD',
-                                                  'TRAVEL', name='categoryactivity'), nullable=False),
+                    sa.Column('category', sa.Enum('DRABBLES', 'NON_SEX', 'QUOTES', 'SENSIBLE_CONTENT', 'EXPLICIT',
+                              'AGNUS_DEI', 'SPECIAL', 'RECORDIS', 'GALLERY', 'MUSIC', name='categoryactivity'), nullable=False),
                     sa.Column('description', sa.String(
                         length=500), nullable=True),
                     sa.Column('image_url', sa.String(

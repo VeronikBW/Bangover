@@ -37,7 +37,7 @@ class User(db.Model):
     nickname: Mapped[str] = mapped_column(
         String(120), unique=True, nullable=False)
     password: Mapped[str] = mapped_column(String(128), nullable=False)
-    avatar_url: Mapped[str] = mapped_column(
+    avatar: Mapped[str] = mapped_column(
         String(250), unique=False, nullable=True)
     status: Mapped[statusUser] = mapped_column(
         db.Enum(statusUser), nullable=False)
@@ -51,7 +51,7 @@ class User(db.Model):
             "id": self.id,
             "name": self.name,
             "nickname": self.nickname,
-            "avatar_url": self.avatar_url,
+            "avatar": self.avatar,
             "status": self.status.value,
             "role": self.role.value
         }
