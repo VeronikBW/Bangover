@@ -7,8 +7,22 @@ import {
 } from "react-router-dom";
 import { Layout } from "./pages/Layout";
 import { Home } from "./pages/Home";
-import { Single } from "./pages/Single";
-import { Demo } from "./pages/Demo";
+import { Members } from "./pages/Members";
+import { Rules } from "./pages/Rules";
+import { Activities } from "./pages/Activities";
+import { Login } from "./pages/Login";
+import { AgnusDei } from "./pages/activities/AgnusDei";
+import { Drabbles } from "./pages/activities/Drabbles";
+import { Explicit } from "./pages/activities/Explicit";
+import { Gallery } from "./pages/activities/Gallery";
+import { Music } from "./pages/activities/Music";
+import { NonSex } from "./pages/activities/NonSex";
+import { Quotes } from "./pages/activities/Quotes";
+import { Recordis } from "./pages/activities/Recordis";
+import { SensibleContent } from "./pages/activities/SensibleContent";
+import { Special } from "./pages/activities/Special";
+
+
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -23,8 +37,21 @@ export const router = createBrowserRouter(
 
       {/* Nested Routes: Defines sub-routes within the BaseHome component. */}
       <Route path="/" element={<Home />} />
-      <Route path="/single/:theId" element={<Single />} />  {/* Dynamic route for single items */}
-      <Route path="/demo" element={<Demo />} />
+      <Route path="/members" element={<Members />} />
+      <Route path="/rules" element={<Rules />} />
+      <Route path="/login" element={<Login />} />
+
+      <Route path="/activities" element={<Activities />} />
+      <Route path="/activities/agnus-dei" element={<AgnusDei />} />
+      <Route path="/activities/drabbles" element={<Drabbles />} />
+      <Route path="/activities/explicit" element={<Explicit />} />
+      <Route path="/activities/gallery" element={<Gallery />} />
+      <Route path="/activities/music" element={<Music />} />
+      <Route path="/activities/non-sex" element={<NonSex />} />
+      <Route path="/activities/quotes" element={<Quotes />} />
+      <Route path="/activities/recordis" element={<Recordis />} />
+      <Route path="/activities/sensible-content" element={<SensibleContent />} />
+      <Route path="/activities/special" element={<Special />} />
     </Route>
   )
 );
