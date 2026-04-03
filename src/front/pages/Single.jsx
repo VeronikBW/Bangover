@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";  // To use link for navigati
 import PropTypes from "prop-types";  // To define prop types for this component
 import rigoImageUrl from "../assets/img/rigo-baby.jpg"  // Import an image asset
 import useGlobalReducer from "../hooks/useGlobalReducer";  // Import a custom hook for accessing the global state
+import "../styles/pages/Single.css";
 
 // Define and export the Single component which displays individual item details.
 export const Single = props => {
@@ -14,8 +15,8 @@ export const Single = props => {
   const singleTodo = store.todos.find(todo => todo.id === parseInt(theId));
 
   return (
-    <div className="container text-center">
-      {/* Display the title of the todo element dynamically retrieved from the store using theId. */}
+    <div className="single-page container text-center">
+      {/* Display the title of the todo element dynamically retrieved from theId. */}
       <h1 className="display-4">Todo: {singleTodo?.title}</h1>
       <hr className="my-4" />  {/* A horizontal rule for visual separation. */}
 

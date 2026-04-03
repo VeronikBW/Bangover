@@ -1,0 +1,107 @@
+.home-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 0;
+}
+
+.logo-container {
+  margin-bottom: 2rem;
+}
+
+.bangover-img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.pretittle-container {
+  font-size: 1.2rem;
+  color: aliceblue;
+}
+
+.title-container h1 {
+  color: aliceblue;
+  font-size: 2.5rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.description-container {
+  color: aliceblue;
+  font-size: 1.2rem;
+}
+
+.buttons-wrapper {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+}
+
+.button-container .btn {
+  padding: 0.75rem 2rem;
+  font-weight: 600;
+  border-radius: 5px;
+  min-width: 150px;
+  width: 100%;
+  max-width: 250px;
+  transition: all 0.3s ease;
+}
+
+.button-container .btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.facebook-button {
+  margin-top: 0.5rem;
+}
+
+@media (min-width: 576px) {
+  .button-container {
+    flex-direction: row;
+    justify-content: center;
+    gap: 1.5rem;
+  }
+
+  .button-container .btn {
+    width: auto;
+    min-width: 130px;
+  }
+
+  .facebook-button {
+    flex-direction: row;
+    margin-top: 1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .title-container h1 {
+    font-size: 2rem;
+  }
+
+  .logo-container {
+    margin-bottom: 1.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .title-container h1 {
+    font-size: 3rem;
+  }
+}
+
+@media (min-width: 992px) {
+  .title-container h1 {
+    font-size: 3.5rem;
+  }
+}

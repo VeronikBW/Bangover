@@ -1,4 +1,4 @@
-export const gallery = () => {
+export const Gallery = () => {
 
     return (
         <div>

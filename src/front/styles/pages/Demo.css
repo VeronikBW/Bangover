@@ -1,0 +1,7 @@
+.demo-page {
+  padding: 2rem;
+}
+
+.demo-page .list-group-item {
+  transition: background 0.2s ease;
+}

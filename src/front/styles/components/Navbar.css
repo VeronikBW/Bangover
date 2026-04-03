@@ -1,0 +1,19 @@
+.navbar-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.navbar {
+    background-color: rgb(0, 0, 0);
+    opacity: 0.7;
+}
+.navbar-logo {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+}
+.navbar-title {
+    font-weight: 2rem;
+    letter-spacing: 0.08em;
+}

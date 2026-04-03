@@ -1,51 +1,40 @@
-import React, { useEffect, useState } from "react"
-import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
-import rigoImageUrl from "../assets/img/rigo-baby.jpg";
+
+
+import "../styles/pages/Home.css";
 
 export const Home = () => {
 
-	const { store, dispatch } = useGlobalReducer()
-	const [error, setError] = useState(null)
-
-	const loadMessage = async () => {
-		try {
-			const backendUrl = import.meta.env.VITE_BACKEND_URL
-
-			if (!backendUrl) throw new Error("VITE_BACKEND_URL is not defined in .env file")
-
-			const response = await fetch(backendUrl + "/api/hello")
-			const data = await response.json()
-
-			if (response.ok) dispatch({ type: "set_hello", payload: data.message })
-
-			return data
-
-		} catch (err) {
-			setError(
-				`Could not fetch the message from the backend. Please check that the backend is running and that VITE_BACKEND_URL is correct.`
-			)
-		}
-
-	}
-
-	useEffect(() => {
-		loadMessage()
-	}, [])
-
 	return (
-		<div className="text-center mt-5">
-			<h1 className="display-4">Hello Rigo!!</h1>
-			<p className="lead">
-				<img src={rigoImageUrl} className="img-fluid rounded-circle mb-3" alt="Rigo Baby" />
-			</p>
-			<div className="alert alert-info">
-				{store.message ? (
-					<span>{store.message}</span>
-				) : (
-					<span className="text-danger">
-						Loading message from the backend (make sure your python 🐍 backend is running)...
-					</span>
-				)}
+		<div className="home-page">
+			<div className="container">
+				<div className="row justify-content-center align-items-center min-vh-100">
+					<div className="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-4 text-center">
+						<div className="logo-container mb-4">
+							<img src="https://res.cloudinary.com/dzvcmydip/image/upload/v1775254377/Logo_de_p%C3%A1gina_de_inicio_vmyrrk.png" alt="Bangover Logo" className="bangover-img img-fluid" />
+						</div>
+						<div className="pretittle-container mb-2">
+							<p>"VINIMOS A PROVOCAR, NO A EDUCAR"</p>
+						</div>
+						<div className="title-container">
+							<h1 className="display-4 fw-bold">BANGOVER</h1>
+						</div>
+						<div className="description-container mt-3 mb-4">
+							<p>PROYECTO NARRRATIVO +18</p>
+							<p>BIMESTRAL</p>
+						</div>
+						<div className="buttons-wrapper">
+							<div className="button-container">
+								<button type="button" className="btn btn-dark">About Us</button>
+								<button type="button" className="btn btn-dark">FC</button>
+							</div>
+							<div className="button-container facebook-button">
+								<button type="button" className="btn btn-dark">
+									<i class="fa-brands fa-facebook"></i>
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	);
