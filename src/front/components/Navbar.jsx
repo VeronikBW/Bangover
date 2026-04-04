@@ -1,8 +1,14 @@
 import { Link, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import "../styles/components/Navbar.css";
+import storeReducer from "../store";
+import useGlobalReducer from "../hooks/useGlobalReducer";
+
+
 
 export const Navbar = () => {
+
+	const { store, dispatch } = useGlobalReducer();
 
 	const navigate = useNavigate();
 	const location = useLocation();
@@ -29,9 +35,15 @@ export const Navbar = () => {
 							Home
 						</button>
 					) : null}
-					<button type="button" className="btn btn-outline-light btn-navbar" onClick={goToLogin}>
-						Log In
-					</button>
+					{!store.token ? 
+						<button type="button" className="btn btn-outline-light btn-navbar" onClick={goToLogin}>
+							Log In
+						</button>
+						:
+						<button type="button" className="btn btn-outline-light btn-navbar" onClick={() => dispatch({ type: "logout" })}>
+							Log Out
+						</button>
+					}	
 				</div>
 			</div>
 		</nav>

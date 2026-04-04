@@ -1,3 +1,102 @@
-.login-page {
-  padding: 2rem;
+.login-body {
+  min-height: calc(100vh - 4rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+.login-card-wrapper {
+  width: 100%;
+  max-width: 420px;
+}
+
+.login-card {
+  width: 100%;
+  background: rgba(12, 17, 30, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.25);
+  border-radius: 28px;
+  padding: 2.2rem 1.8rem;
+}
+
+.login-title {
+  color: #f8fafc;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1.75rem;
+  letter-spacing: 0.04em;
+}
+
+.login-card .form-group label {
+  display: block;
+  margin-bottom: 0.55rem;
+  color: #cbd5e1;
+  font-size: 0.95rem;
+}
+
+.login-card .form-control {
+  width: 100%;
+  padding: 0.95rem 1rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.05);
+  color: #f8fafc;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.login-card .form-control::placeholder {
+  color: rgba(226, 232, 240, 0.55);
+}
+
+.login-card .form-control:focus {
+  outline: none;
+  box-shadow: 0 0 0 0 transparent;
+  border-color: #640202;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.login-card .form-control:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 0 transparent;
+}
+
+.boton-registrar {
+  width: 100%;
+  padding: 0.95rem;
+  border-radius: 1rem;
+  border: none;
+  font-weight: 600;
+  color: #ffffff;
+  background: linear-gradient(135deg, #640202 0%, #250100 100%);
+  box-shadow: 0 0px 32px #640202;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
+}
+
+.boton-registrar:hover,
+.boton-registrar:focus {
+  background: linear-gradient(135deg, #940505 0%, #640202 100%);
+  transform: translateY(-1px);
+}
+
+.login-note {
+  color: #94a3b8;
+  margin-top: 1rem;
+  font-size: 0.95rem;
+  text-align: center;
+}
+
+@media (max-width: 576px) {
+  .login-body {
+    padding: 1.2rem;
+  }
+
+  .login-card {
+    padding: 1.8rem 1.2rem;
+  }
 }

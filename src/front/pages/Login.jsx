@@ -1,7 +1,7 @@
 import "../styles/pages/Login.css";
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import useGlobalReducer from "../hooks/useGlobalReducer";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Toaster, toast } from "sonner";
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
@@ -12,7 +12,7 @@ const initialUser = {
 }
 
 export const Login = () => {
-    const { store, dispatch } = useGlobalReducer();
+    const { dispatch } = useGlobalReducer();
     const navigate = useNavigate();
     const [user, setUser] = useState(initialUser);
 
@@ -75,7 +75,7 @@ export const Login = () => {
 
                 navigate("/");
             } else {
-                toast.error("Nickname o password incorrectos");
+                toast.error("Nickname o contraseña incorrectos");
             }
         } catch (error) {
             console.error("An error occurred during login:", error);
@@ -84,44 +84,40 @@ export const Login = () => {
 
 
     return (
-       <div className="login-body mt-5">
-            <Toaster position="top-center"/>
-            <div className="container container-blue rounded-4">
-                <div className="row">
-                    <div className="col-12 col-md-6">
-                        <form className="bg-light p-5 login-form rounded-5" onSubmit={handleSubmit}>
-                            <h1 className="h1-login text-center mt-5 pt-5 mb-3">Iniciar sesion</h1>
-                            <div className="form-group mb-3">
-                                <label htmlFor="forEmail">Nickname:</label>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    id="forEmail"
-                                    placeholder="Me llaman..."
-                                    name="nickname"
-                                    value={user.nickname}
-                                    onChange={handleChange}
-                                />
-                            </div>
-                            <div className="form-group mb-3">
-                                <label htmlFor="forPassword">Contraseña:</label>
-                                <input
-                                    type="password"
-                                    className="form-control"
-                                    id="forPassword"
-                                    placeholder="contraseña"
-                                    name="password"
-                                    value={user.password}
-                                    onChange={handleChange}
-                                />
-                            </div>
-                            <button className="boton-registrar btn mt-3 mb-3 col-12">
-                                Iniciar sesion
-                            </button>
-                            <p>Si olvidaste tu contraseña, contacta a la administración</p>
-                        </form>
+        <div className="login-body">
+            <Toaster position="top-center" />
+            <div className="login-card-wrapper">
+                <form className="login-card" onSubmit={handleSubmit}>
+                    <h1 className="login-title text-center">Inicia sesión</h1>
+                    <div className="form-group mb-4">
+                        <label htmlFor="forEmail">Nickname</label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            id="forEmail"
+                            placeholder="Me llaman..."
+                            name="nickname"
+                            value={user.nickname}
+                            onChange={handleChange}
+                        />
                     </div>
-                </div>
+                    <div className="form-group mb-4">
+                        <label htmlFor="forPassword">Contraseña</label>
+                        <input
+                            type="password"
+                            className="form-control"
+                            id="forPassword"
+                            placeholder="Contraseña"
+                            name="password"
+                            value={user.password}
+                            onChange={handleChange}
+                        />
+                    </div>
+                    <button type="submit" className="boton-registrar btn mb-3">
+                        Iniciar sesión
+                    </button>
+                    <p className="login-note">Si olvidaste tu contraseña, contacta a la administración.</p>
+                </form>
             </div>
         </div>
     );
