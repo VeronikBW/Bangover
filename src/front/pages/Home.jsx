@@ -1,8 +1,22 @@
 
 
 import "../styles/pages/Home.css";
+import { useNavigate } from "react-router-dom";
 
 export const Home = () => {
+	const navigate = useNavigate();
+
+	const goToAboutUs = () => {
+		navigate("/about-us");
+	};
+
+	const goToMembers = () => {
+		navigate("/members");
+	}
+
+	const goToFacebook = () => {
+		window.open("https://www.facebook.com/bangoverpg", "_blank");
+	}
 
 	return (
 		<div className="home-page">
@@ -24,11 +38,15 @@ export const Home = () => {
 						</div>
 						<div className="buttons-wrapper">
 							<div className="button-container">
-								<button type="button" className="btn btn-dark">About Us</button>
-								<button type="button" className="btn btn-dark">FC</button>
+								<button type="button" className="btn btn-dark" onClick={goToAboutUs}>
+									About Us
+								</button>
+								<button type="button" className="btn btn-dark" onClick={goToMembers}>
+									FC
+								</button>
 							</div>
 							<div className="button-container facebook-button">
-								<button type="button" className="btn btn-dark">
+								<button type="button" className="btn btn-dark" onClick={goToFacebook}>
 									<i class="fa-brands fa-facebook"></i>
 								</button>
 							</div>

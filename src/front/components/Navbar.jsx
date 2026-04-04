@@ -1,7 +1,19 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "../styles/components/Navbar.css";
 
 export const Navbar = () => {
+
+	const navigate = useNavigate();
+	const location = useLocation();
+
+	const goToLogin = () => {
+		navigate("/login");
+	}
+
+	const goToHome = () => {
+		navigate("/");
+	}
 
 	return (
 		<nav className="navbar border-bottom border-body" data-bs-theme="dark">
@@ -11,7 +23,16 @@ export const Navbar = () => {
 					<img src="https://res.cloudinary.com/dzvcmydip/image/upload/v1775255623/Bangover_tpirh3.ico" alt="Bangover logo" className="navbar-logo d-inline-block align-text-top" />
 					<span className="navbar-title">BANGOVER</span>
 				</a>
-				<button type="button" className="btn btn-outline-light btn-navbar">Log In</button>
+				<div className="navbar-buttons d-flex align-items-center gap-2 ms-auto">
+					{location.pathname !== "/" ? (
+						<button type="button" className="btn btn-outline-light btn-navbar" onClick={goToHome}>
+							Home
+						</button>
+					) : null}
+					<button type="button" className="btn btn-outline-light btn-navbar" onClick={goToLogin}>
+						Log In
+					</button>
+				</div>
 			</div>
 		</nav>
 	);
