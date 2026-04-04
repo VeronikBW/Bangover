@@ -1,3 +1,61 @@
-.aboutus-page {
-  padding: 2rem;
+.aboutus-body {
+  min-height: calc(100vh - 4rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  color: #f8fafc;
+}
+
+.aboutus-card-wrapper {
+  width: 100%;
+  max-width: 420px;
+}
+
+.aboutus-card {
+  width: 100%;
+  background: rgba(12, 17, 30, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.25);
+  border-radius: 28px;
+  padding: 2.2rem 1.8rem;
+}
+
+.Presentacion h1 {
+  color: #f8fafc;
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  letter-spacing: 0.04em;
+}
+
+.parrafo_aboutUS p {
+  color: #cbd5e1;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  text-align: justify;
+}
+
+.cita_aboutUS p {
+  color: #94a3b8;
+  font-style: italic;
+  text-align: center;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+@media (max-width: 576px) {
+  .aboutus-body {
+    padding: 1.2rem;
+  }
+
+  .aboutus-card {
+    padding: 1.8rem 1.2rem;
+  }
+
+  .Presentacion h1 {
+    font-size: 1.5rem;
+  }
 }
