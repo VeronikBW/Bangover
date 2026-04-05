@@ -36,6 +36,8 @@ class User(db.Model):
         String(120), unique=False, nullable=False)
     nickname: Mapped[str] = mapped_column(
         String(120), unique=True, nullable=False)
+    fc: Mapped[str] = mapped_column(
+        String(120), unique=True, nullable=False)
     password: Mapped[str] = mapped_column(String(128), nullable=False)
     avatar: Mapped[str] = mapped_column(
         String(250), unique=False, nullable=True)
@@ -51,6 +53,7 @@ class User(db.Model):
             "id": self.id,
             "name": self.name,
             "nickname": self.nickname,
+            "fc": self.fc,
             "avatar": self.avatar,
             "status": self.status.value,
             "role": self.role.value

@@ -27,7 +27,7 @@ export const Navbar = () => {
 			<div className="container-fluid">
 				<a className="navbar-brand" href="#">
 					<img src="https://res.cloudinary.com/dzvcmydip/image/upload/v1775255623/Bangover_tpirh3.ico" alt="Bangover logo" className="navbar-logo d-inline-block align-text-top" />
-					<span className="navbar-title">BANGOVER</span>
+					<span className="navbar-title" onClick={goToHome}>BANGOVER</span>
 				</a>
 				<div className="navbar-buttons d-flex align-items-center gap-2 ms-auto">
 					{location.pathname !== "/" ? (

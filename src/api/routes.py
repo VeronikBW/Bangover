@@ -27,17 +27,20 @@ def handle_hello():
 
     return jsonify(response_body)
 
+
 @api.route('/health-check', methods=['GET'])
 def health_check():
     return jsonify({"status": "OK"}), 200
 
 # USERS
 
+
 @api.route('/users', methods=['GET'])
 def get_users():
     users = User.query.all()
     users_list = [user.serialize() for user in users]
     return jsonify(users_list), 200
+
 
 @api.route('/register', methods=['POST'])
 def register_user():
@@ -47,19 +50,23 @@ def register_user():
 
     name = data_form.get('name')
     nickname = data_form.get('nickname')
+    fc = data_form.get('fc')
     password = data_form.get('password')
     avatar_db = data_files.get('avatar')
 
-    if not all([name, nickname, password]):
+    if not all([name, nickname, fc, password]):
         return jsonify({"error": "Missing required fields"}), 400
-    
+
     user_exists = User.query.filter_by(nickname=nickname).first()
+    fc_exists = User.query.filter_by(fc=fc).first()
 
     if user_exists:
         return jsonify({"error": "Nickname already exists"}), 400
-    
-    salt = b64encode(os.urandom(32)).decode('utf-8')
-    hashed_password = generate_password_hash(password + salt)
+
+    if fc_exists:
+        return jsonify({"error": "FC already exists"}), 400
+
+    hashed_password = generate_password_hash(password)
 
     avatar = "https://i.pravatar.cc/300"
 
@@ -74,6 +81,7 @@ def register_user():
     new_user = User(
         name=name,
         nickname=nickname,
+        fc=fc,
         password=hashed_password,
         avatar=avatar,
         status="ACTIVE",
@@ -88,7 +96,6 @@ def register_user():
     except Exception as e:
         db.session.rollback()
         return jsonify({"message": "Error creating user", "Error": f"{e.args}"}), 500
-    
 
 
 @api.route('/users/<int:user_id>', methods=['GET'])
@@ -98,6 +105,7 @@ def get_user(user_id):
         return jsonify(user.serialize()), 200
     else:
         return jsonify({"error": "User not found"}), 404
+
 
 @api.route('/users/<int:user_id>', methods=['DELETE'])
 def delete_user(user_id):
@@ -109,6 +117,7 @@ def delete_user(user_id):
     db.session.commit()
     return jsonify({"message": "User deleted successfully"}), 200
 
+
 @api.route('/users/<int:user_id>', methods=['PUT'])
 def update_user(user_id):
     user = User.query.get(user_id)
@@ -118,13 +127,18 @@ def update_user(user_id):
     data = request.get_json()
     user.name = data.get('name', user.name)
     user.nickname = data.get('nickname', user.nickname)
-    user.password = data.get('password', user.password)
+    user.fc = data.get('fc', user.fc)
+
+    if data.get('password'):
+        user.password = generate_password_hash(data.get('password'))
+
     user.avatar = data.get('avatar', user.avatar)
     user.status = data.get('status', user.status)
     user.role = data.get('role', user.role)
 
     db.session.commit()
     return jsonify(user.serialize()), 200
+
 
 @api.route('/login', methods=['POST'])
 def login():
@@ -138,18 +152,17 @@ def login():
     user = User.query.filter_by(nickname=nickname).first()
     if not user:
         return jsonify({"error": "Invalid nickname or password"}), 401
-    
-    password_valid = f"{password}{user.salt}"
-    if not check_password_hash(user.password, password_valid):
+
+    if not check_password_hash(user.password, password):
         return jsonify({"error": "Invalid nickname or password"}), 401
-    
-    if user.status != "ACTIVE":
-        return jsonify({"error": "User account is not active"}), 403
-    
+
     access_token = create_access_token(
         identity=str(user.id),
         expires_delta=timedelta(days=1)
     )
+
+    return jsonify({"access_token": access_token}), 200
+
 
 @api.route('/profile', methods=['GET'])
 @jwt_required()
@@ -163,13 +176,14 @@ def profile():
         return jsonify({"error": "User not found"}), 404
 
 
-#ACTIVITIES
+# ACTIVITIES
 
 @api.route('/activities', methods=['GET'])
 def get_activities():
     activities = Activity.query.all()
     activities_list = [activity.serialize() for activity in activities]
     return jsonify(activities_list), 200
+
 
 @api.route('/activities/<int:activity_id>', methods=['GET'])
 def get_activity(activity_id):
@@ -178,7 +192,8 @@ def get_activity(activity_id):
         return jsonify(activity.serialize()), 200
     else:
         return jsonify({"error": "Activity not found"}), 404
-    
+
+
 @api.route('/activities', methods=['POST'])
 @jwt_required()
 @admin_required
@@ -193,8 +208,8 @@ def create_activity():
             "description": data_form.get('description'),
             "code": data_form.get('code'),
             "image_db": data_files.get('image'),
-            }
-        
+        }
+
         image = ""
 
         if data.get("image_db") is not None:
@@ -217,6 +232,7 @@ def create_activity():
         db.session.rollback()
         return jsonify({"message": "Error creating activity", "Error": f"{e.args}"}), 500
 
+
 @api.route('/activities/<int:activity_id>', methods=['DELETE'])
 @jwt_required()
 @admin_required
@@ -228,6 +244,7 @@ def delete_activity(activity_id):
     db.session.delete(activity)
     db.session.commit()
     return jsonify({"message": "Activity deleted successfully"}), 200
+
 
 @api.route('/activities/<int:activity_id>', methods=['PUT'])
 @jwt_required()
@@ -245,8 +262,8 @@ def update_activity(activity_id):
             activity.name = data_form.get('name')
 
         if data_form.get('category'):
-            activity.category = categoryActivity[data_form.get('category')] 
-        
+            activity.category = categoryActivity[data_form.get('category')]
+
         if data_form.get('description'):
             activity.description = data_form.get('description')
 
@@ -257,7 +274,7 @@ def update_activity(activity_id):
         if image_db is not None:
             image = uploader.upload(image_db)
             activity.image = image["secure_url"]
-        
+
         db.session.commit()
         return jsonify({"message": "Activity updated successfully"}), 200
     except Exception as e:
@@ -265,6 +282,7 @@ def update_activity(activity_id):
         return jsonify({"message": "Error updating activity", "Error": f"{e.args}"}), 500
 
 # FAVORITES
+
 
 @api.route('/favorites', methods=['GET'])
 @jwt_required()
@@ -276,24 +294,25 @@ def get_favorites():
 
     return jsonify({"favorites": favorites_list}), 200
 
+
 @api.route('/favorites', methods=['POST'])
 @jwt_required()
 def add_favorite():
     current_user_id = get_jwt_identity()
-    
+
     activity = Activity.query.get('activity_id')
 
     if not activity:
         return jsonify({"error": "Activity not found"}), 404
-    
+
     existing_favorite = Favorite.query.filter_by(
         user_id=current_user_id,
         activity_id=activity.id
-        ).first()
-    
+    ).first()
+
     if existing_favorite:
         return jsonify({"error": "Activity already in favorites"}), 409
-    
+
     new_favorite = Favorite(
         user_id=current_user_id,
         activity_id=activity.id
@@ -309,29 +328,24 @@ def add_favorite():
         return jsonify({"message": "Error adding favorite", "Error": f"{e.args}"}), 500
 
 
-
 @api.route('/favorites/<int:favorite_id>', methods=['DELETE'])
 @jwt_required()
 def remove_favorite(favorite_id):
     current_user_id = get_jwt_identity()
 
     favorite = Favorite.query.filter_by(
-        id=favorite_id, 
+        id=favorite_id,
         user_id=current_user_id
-        ).first()
+    ).first()
 
     if not favorite:
         return jsonify({"error": "Favorite not found"}), 404
-    
+
     db.session.delete(favorite)
 
     try:
         db.session.commit()
-        return jsonify({"message": "Favorite removed successfully"}), 200   
+        return jsonify({"message": "Favorite removed successfully"}), 200
     except Exception as e:
         db.session.rollback()
         return jsonify({"message": "Error removing favorite", "Error": f"{e.args}"}), 500
-    
-
-
-    

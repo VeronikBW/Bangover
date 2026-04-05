@@ -41,7 +41,7 @@ export const Login = () => {
                 dispatch({ type: "set_token", payload: data.access_token });
 
                 setUser(initialUser);
-                const userResponse = await fetch(`${backendUrl}/api/user`, {
+                const userResponse = await fetch(`${backendUrl}/api/profile`, {
                     method: "GET",
                     headers: {
                         "content-type": "application/json",
@@ -49,13 +49,18 @@ export const Login = () => {
                     }
                 });
 
+                if (!userResponse.ok) {
+                    toast.error("Error al obtener datos de usuario");
+                    return;
+                }
+
                 const userData = await userResponse.json();
                 dispatch({
                     type: "set_user",
-                    payload: userData.user
-                })
+                    payload: userData
+                });
 
-                const favoritiesResponse = await fetch(`${backendUrl}/api/favorities`, {
+                const favoritiesResponse = await fetch(`${backendUrl}/api/favorites`, {
                     method: "GET",
                     headers: {
                         "Authorization": `Bearer ${data.access_token}`
@@ -66,12 +71,12 @@ export const Login = () => {
                     const favoritiesData = await favoritiesResponse.json();
                     dispatch({
                         type: "set_favorities",
-                        payload: favoritiesData.favorities
+                        payload: favoritiesData.favorites
                     });
                 }
 
                 localStorage.setItem("token", data.access_token);
-                localStorage.setItem("user", JSON.stringify(userData.user));
+                localStorage.setItem("user", JSON.stringify(userData));
 
                 navigate("/");
             } else {
@@ -79,6 +84,7 @@ export const Login = () => {
             }
         } catch (error) {
             console.error("An error occurred during login:", error);
+            toast.error("No se pudo iniciar sesión. Revisa la conexión o la URL del backend.");
         }
     }
 
