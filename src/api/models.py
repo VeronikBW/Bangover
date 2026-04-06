@@ -34,7 +34,7 @@ class User(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(
         String(120), unique=False, nullable=False)
-    nickname: Mapped[str] = mapped_column(
+    code: Mapped[str] = mapped_column(
         String(120), unique=True, nullable=False)
     fc: Mapped[str] = mapped_column(
         String(120), unique=True, nullable=False)
@@ -52,7 +52,7 @@ class User(db.Model):
         return {
             "id": self.id,
             "name": self.name,
-            "nickname": self.nickname,
+            "code": self.code,
             "fc": self.fc,
             "avatar": self.avatar,
             "status": self.status.value,

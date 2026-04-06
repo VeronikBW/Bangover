@@ -49,19 +49,19 @@ def register_user():
     data_files = request.files
 
     name = data_form.get('name')
-    nickname = data_form.get('nickname')
+    code = data_form.get('code') or data_form.get('nickname')
     fc = data_form.get('fc')
     password = data_form.get('password')
     avatar_db = data_files.get('avatar')
 
-    if not all([name, nickname, fc, password]):
+    if not all([name, code, fc, password]):
         return jsonify({"error": "Missing required fields"}), 400
 
-    user_exists = User.query.filter_by(nickname=nickname).first()
+    user_exists = User.query.filter_by(code=code).first()
     fc_exists = User.query.filter_by(fc=fc).first()
 
     if user_exists:
-        return jsonify({"error": "Nickname already exists"}), 400
+        return jsonify({"error": "Code already exists"}), 400
 
     if fc_exists:
         return jsonify({"error": "FC already exists"}), 400
@@ -75,12 +75,12 @@ def register_user():
         avatar = avatar["secure_url"]
 
     rol = "USER"
-    if nickname == "Saret" or nickname == "Andrew":
+    if code == "Saret" or code == "Andrew":
         rol = "ADMIN"
 
     new_user = User(
         name=name,
-        nickname=nickname,
+        code=code,
         fc=fc,
         password=hashed_password,
         avatar=avatar,
@@ -125,9 +125,19 @@ def update_user(user_id):
         return jsonify({"error": "User not found"}), 404
 
     data = request.get_json()
+
+    new_code = data.get('code', data.get('nickname', user.code))
+    new_fc = data.get('fc', user.fc)
+
+    if new_code != user.code and User.query.filter_by(code=new_code).first():
+        return jsonify({"error": "Code already exists"}), 400
+
+    if new_fc != user.fc and User.query.filter_by(fc=new_fc).first():
+        return jsonify({"error": "FC already exists"}), 400
+
     user.name = data.get('name', user.name)
-    user.nickname = data.get('nickname', user.nickname)
-    user.fc = data.get('fc', user.fc)
+    user.code = new_code
+    user.fc = new_fc
 
     if data.get('password'):
         user.password = generate_password_hash(data.get('password'))
@@ -144,17 +154,17 @@ def update_user(user_id):
 def login():
     data_form = request.form
 
-    nickname = data_form.get('nickname')
+    code = data_form.get('code') or data_form.get('nickname')
     password = data_form.get('password').strip()
-    if not all([nickname, password]):
+    if not all([code, password]):
         return jsonify({"error": "Missing required fields"}), 400
 
-    user = User.query.filter_by(nickname=nickname).first()
+    user = User.query.filter_by(code=code).first()
     if not user:
-        return jsonify({"error": "Invalid nickname or password"}), 401
+        return jsonify({"error": "Invalid code or password"}), 401
 
     if not check_password_hash(user.password, password):
-        return jsonify({"error": "Invalid nickname or password"}), 401
+        return jsonify({"error": "Invalid code or password"}), 401
 
     access_token = create_access_token(
         identity=str(user.id),

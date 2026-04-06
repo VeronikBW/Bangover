@@ -11,6 +11,10 @@
   max-width: 420px;
 }
 
+.form-text {
+  color: rgba(226, 232, 240, 0.55);
+}
+
 .login-card {
   width: 100%;
   background: rgba(12, 17, 30, 0.95);

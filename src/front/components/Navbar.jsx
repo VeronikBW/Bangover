@@ -21,6 +21,10 @@ export const Navbar = () => {
 		navigate("/");
 	}
 
+	const goToActivities = () => {
+		navigate("/activities");
+	}
+
 	return (
 		<nav className="navbar border-bottom border-body" data-bs-theme="dark">
 
@@ -35,7 +39,12 @@ export const Navbar = () => {
 							Home
 						</button>
 					) : null}
-					{!store.token ? 
+					{store.token && location.pathname !== "/activities" ? (
+						<button type="button" className="btn btn-outline-light btn-navbar" onClick={goToActivities}>
+							Actividades
+						</button>
+					) : null}
+					{!store.token ?
 						<button type="button" className="btn btn-outline-light btn-navbar" onClick={goToLogin}>
 							Log In
 						</button>
@@ -43,7 +52,7 @@ export const Navbar = () => {
 						<button type="button" className="btn btn-outline-light btn-navbar" onClick={() => dispatch({ type: "logout" })}>
 							Log Out
 						</button>
-					}	
+					}
 				</div>
 			</div>
 		</nav>

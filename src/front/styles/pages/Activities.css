@@ -1,3 +1,94 @@
-.activities-page {
-  padding: 2rem;
+.activities-body {
+  min-height: calc(100vh - 4rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  color: #f8fafc;
+}
+
+.activities-wrapper {
+  width: 100%;
+  max-width: 1100px;
+}
+
+.activities-card {
+  width: 100%;
+  background: rgba(12, 17, 30, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.25);
+  border-radius: 28px;
+  padding: 2.2rem 1.8rem;
+}
+
+.activities-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.activities-header h1 {
+  font-size: 1.9rem;
+  font-weight: 700;
+  margin-bottom: 0.6rem;
+}
+
+.activities-header p {
+  color: #cbd5e1;
+  margin: 0;
+  line-height: 1.6;
+}
+
+.activities-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.activity-category-link {
+  min-height: 125px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.55rem;
+  padding: 1rem 1.1rem;
+  border-radius: 18px;
+  text-decoration: none;
+  color: #f8fafc;
+  background: linear-gradient(
+    135deg,
+    rgba(37, 99, 235, 0.35),
+    rgba(139, 92, 246, 0.35)
+  );
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.activity-category-link:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 30px rgba(37, 99, 235, 0.2);
+  border-color: rgba(147, 197, 253, 0.4);
+}
+
+.activity-category-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.activity-category-description {
+  color: #dbe4f0;
+  line-height: 1.45;
+  font-size: 0.95rem;
+}
+
+@media (max-width: 576px) {
+  .activities-card {
+    padding: 1.8rem 1.2rem;
+  }
+
+  .activities-header h1 {
+    font-size: 1.6rem;
+  }
 }

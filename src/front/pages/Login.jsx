@@ -7,7 +7,7 @@ import { Toaster, toast } from "sonner";
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 const initialUser = {
-    nickname: "",
+    code: "",
     password: "",
 }
 
@@ -27,7 +27,7 @@ export const Login = () => {
         e.preventDefault();
         try {
             const formData = new FormData();
-            formData.append("nickname", user.nickname);
+            formData.append("code", user.code);
             formData.append("password", user.password);
 
             const response = await fetch(`${backendUrl}/api/login`, {
@@ -80,7 +80,7 @@ export const Login = () => {
 
                 navigate("/");
             } else {
-                toast.error("Nickname o contraseña incorrectos");
+                toast.error("Code o contraseña incorrectos");
             }
         } catch (error) {
             console.error("An error occurred during login:", error);
@@ -96,16 +96,17 @@ export const Login = () => {
                 <form className="login-card" onSubmit={handleSubmit}>
                     <h1 className="login-title text-center">Inicia sesión</h1>
                     <div className="form-group mb-4">
-                        <label htmlFor="forEmail">Nickname</label>
+                        <label htmlFor="forEmail">Código</label>
                         <input
                             type="text"
                             className="form-control"
                             id="forEmail"
-                            placeholder="Me llaman..."
-                            name="nickname"
-                            value={user.nickname}
+                            placeholder="#Código"
+                            name="code"
+                            value={user.code}
                             onChange={handleChange}
                         />
+                        <div id="emailHelp" class="form-text">Recuerda añadir el hastag(#) al inicio de tu código.</div>
                     </div>
                     <div className="form-group mb-4">
                         <label htmlFor="forPassword">Contraseña</label>
