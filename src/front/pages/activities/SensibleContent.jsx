@@ -1,22 +1,9 @@
-import { Link } from "react-router-dom";
-import "../../styles/pages/activities/ActivityCategory.css";
+import { ActivityCategoryPage } from "../../components/ActivityCategoryPage";
 
-export const SensibleContent = () => {
-    return (
-        <div className="activity-category-page sensible-content-page">
-            <div className="activity-category-card">
-                <span className="activity-category-badge">Bangover · Categoría</span>
-                <h1>Sensible Content</h1>
-                <p>
-                    Esta vista deja lista la sección destinada al contenido sensible, con
-                    una presentación separada y fácil de ubicar.
-                </p>
-                <div className="activity-category-actions">
-                    <Link to="/activities" className="activity-category-button">
-                        Volver a actividades
-                    </Link>
-                </div>
-            </div>
-        </div>
-    );
-};
+export const SensibleContent = () => (
+    <ActivityCategoryPage
+        title="Sensible Content"
+        categoryValue="sensible-content"
+        description="Es probable que los títulos no sean del agrado común, por lo mismo, lectores, vamos a pedir respeto para aquellos miembros que decidan escribir al respecto; y para los escritores, respeto y cuidado en la elección del lenguaje a utilizar. Se recomienda poner las advertencias pertinentes '+18' o '+21' según corresponda."
+    />
+);

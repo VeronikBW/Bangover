@@ -15,6 +15,7 @@ export const Login = () => {
     const { dispatch } = useGlobalReducer();
     const navigate = useNavigate();
     const [user, setUser] = useState(initialUser);
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleChange = ({ target }) => {
         setUser({
@@ -25,6 +26,11 @@ export const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (isLoading) return;
+
+        setIsLoading(true);
+
         try {
             const formData = new FormData();
             formData.append("code", user.code);
@@ -78,13 +84,15 @@ export const Login = () => {
                 localStorage.setItem("token", data.access_token);
                 localStorage.setItem("user", JSON.stringify(userData));
 
-                navigate("/");
+                navigate("/profile");
             } else {
                 toast.error("Code o contraseña incorrectos");
             }
         } catch (error) {
             console.error("An error occurred during login:", error);
             toast.error("No se pudo iniciar sesión. Revisa la conexión o la URL del backend.");
+        } finally {
+            setIsLoading(false);
         }
     }
 
@@ -93,7 +101,7 @@ export const Login = () => {
         <div className="login-body">
             <Toaster position="top-center" />
             <div className="login-card-wrapper">
-                <form className="login-card" onSubmit={handleSubmit}>
+                <form className="login-card" onSubmit={handleSubmit} aria-busy={isLoading}>
                     <h1 className="login-title text-center">Inicia sesión</h1>
                     <div className="form-group mb-4">
                         <label htmlFor="forEmail">Código</label>
@@ -105,8 +113,9 @@ export const Login = () => {
                             name="code"
                             value={user.code}
                             onChange={handleChange}
+                            disabled={isLoading}
                         />
-                        <div id="emailHelp" class="form-text">Recuerda añadir el hastag(#) al inicio de tu código.</div>
+                        <div id="emailHelp" className="form-text">Recuerda añadir el hastag(#) al inicio de tu código.</div>
                     </div>
                     <div className="form-group mb-4">
                         <label htmlFor="forPassword">Contraseña</label>
@@ -118,10 +127,18 @@ export const Login = () => {
                             name="password"
                             value={user.password}
                             onChange={handleChange}
+                            disabled={isLoading}
                         />
                     </div>
-                    <button type="submit" className="boton-registrar btn mb-3">
-                        Iniciar sesión
+                    <button type="submit" className="boton-registrar btn mb-3" disabled={isLoading}>
+                        {isLoading ? (
+                            <span className="login-loading-content">
+                                <span className="login-spinner" aria-hidden="true"></span>
+                                Cargando...
+                            </span>
+                        ) : (
+                            "Iniciar sesión"
+                        )}
                     </button>
                     <p className="login-note">Si olvidaste tu contraseña, contacta a la administración.</p>
                 </form>

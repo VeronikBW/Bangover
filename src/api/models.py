@@ -67,7 +67,7 @@ class Activity(db.Model):
     category: Mapped[categoryActivity] = mapped_column(
         db.Enum(categoryActivity), nullable=False)
     description: Mapped[str] = mapped_column(
-        String(500), unique=False, nullable=True)
+        String(1000), unique=False, nullable=True)
     image: Mapped[str] = mapped_column(
         String(250), unique=False, nullable=True)
     code: Mapped[str] = mapped_column(String(50), unique=True, nullable=False)

@@ -11,6 +11,7 @@ import { Members } from "./pages/Members";
 import { AboutUs } from "./pages/AboutUs";
 import { Activities } from "./pages/Activities";
 import { Login } from "./pages/Login";
+import { Profile } from "./pages/Profile";
 import { AgnusDei } from "./pages/activities/AgnusDei";
 import { Drabbles } from "./pages/activities/Drabbles";
 import { Explicit } from "./pages/activities/Explicit";
@@ -40,6 +41,7 @@ export const router = createBrowserRouter(
       <Route path="/members" element={<Members />} />
       <Route path="/about-us" element={<AboutUs />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/profile" element={<Profile />} />
 
       <Route path="/activities" element={<Activities />} />
       <Route path="/activities/agnus-dei" element={<AgnusDei />} />

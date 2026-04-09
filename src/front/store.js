@@ -1,52 +1,60 @@
-export const initialStore=()=>{
-  return{
+export const initialStore = () => {
+  return {
     message: null,
     activity: null,
     user: JSON.parse(localStorage.getItem("user")) || null,
     token: localStorage.getItem("token") || null,
     favorities: [],
-  }
-}
+  };
+};
 
 export default function storeReducer(store, action = {}) {
-  switch(action.type){
-    case 'set_hello':
+  switch (action.type) {
+    case "set_hello":
       return {
         ...store,
-        message: action.payload
+        message: action.payload,
       };
 
-    case 'set_user':
+    case "set_user":
       return {
         ...store,
-        user: action.payload
+        user: action.payload,
       };
 
-    case 'set_token':
+    case "set_token":
       return {
         ...store,
-        token: action.payload
+        token: action.payload,
       };
 
-    case 'set_favorities':
+    case "set_favorities":
       return {
         ...store,
-        favorities: action.payload
+        favorities: action.payload,
       };
 
-    case 'add_favorite':
+    case "add_favorite":
       return {
         ...store,
-        favorities: [...store.favorities, action.payload]
+        favorities: store.favorities.some(
+          (favorite) => favorite.activity_id === action.payload.activity_id,
+        )
+          ? store.favorities
+          : [...store.favorities, action.payload],
       };
 
-    case 'remove_favorite':
+    case "remove_favorite":
       return {
         ...store,
-        favorities: store.favorities.filter(favorite => favorite.id !== action.payload)
+        favorities: store.favorities.filter(
+          (favorite) =>
+            favorite.id !== action.payload &&
+            favorite.activity_id !== action.payload,
+        ),
       };
 
-    case 'logout':
+    case "logout":
       return {
         ...store,
         user: null,
@@ -55,14 +63,13 @@ export default function storeReducer(store, action = {}) {
         isAuthenticated: false,
       };
 
-    case 'set_activity':
+    case "set_activity":
       return {
         ...store,
-        activity: action.payload
+        activity: action.payload,
       };
 
-
     default:
-      throw Error('Unknown action.');
-  }    
+      throw Error("Unknown action.");
+  }
 }

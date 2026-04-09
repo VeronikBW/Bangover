@@ -297,7 +297,7 @@ def update_activity(activity_id):
 @api.route('/favorites', methods=['GET'])
 @jwt_required()
 def get_favorites():
-    current_user_id = get_jwt_identity()
+    current_user_id = int(get_jwt_identity())
 
     favorites = Favorite.query.filter_by(user_id=current_user_id).all()
     favorites_list = [favorite.serialize() for favorite in favorites]
@@ -308,9 +308,19 @@ def get_favorites():
 @api.route('/favorites', methods=['POST'])
 @jwt_required()
 def add_favorite():
-    current_user_id = get_jwt_identity()
+    current_user_id = int(get_jwt_identity())
+    data = request.get_json(silent=True) or {}
+    activity_id = data.get('activity_id') or request.form.get('activity_id')
 
-    activity = Activity.query.get('activity_id')
+    if activity_id is None:
+        return jsonify({"error": "Missing activity_id"}), 400
+
+    try:
+        activity_id = int(activity_id)
+    except (TypeError, ValueError):
+        return jsonify({"error": "Invalid activity_id"}), 400
+
+    activity = Activity.query.get(activity_id)
 
     if not activity:
         return jsonify({"error": "Activity not found"}), 404
@@ -321,7 +331,7 @@ def add_favorite():
     ).first()
 
     if existing_favorite:
-        return jsonify({"error": "Activity already in favorites"}), 409
+        return jsonify(existing_favorite.serialize()), 200
 
     new_favorite = Favorite(
         user_id=current_user_id,
@@ -332,7 +342,7 @@ def add_favorite():
 
     try:
         db.session.commit()
-        return jsonify({"message": "Favorite added successfully"}), 201
+        return jsonify(new_favorite.serialize()), 201
     except Exception as e:
         db.session.rollback()
         return jsonify({"message": "Error adding favorite", "Error": f"{e.args}"}), 500
@@ -341,7 +351,7 @@ def add_favorite():
 @api.route('/favorites/<int:favorite_id>', methods=['DELETE'])
 @jwt_required()
 def remove_favorite(favorite_id):
-    current_user_id = get_jwt_identity()
+    current_user_id = int(get_jwt_identity())
 
     favorite = Favorite.query.filter_by(
         id=favorite_id,

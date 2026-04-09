@@ -1,0 +1,258 @@
+import { useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
+import { Toaster, toast } from "sonner";
+import useGlobalReducer from "../hooks/useGlobalReducer";
+import { useActivityFavorites } from "../hooks/useActivityFavorites";
+import { ActivityModal } from "../components/ActivityModal";
+import "../styles/pages/Profile.css";
+import "../styles/pages/activities/ActivityCategory.css";
+
+const backendUrl = import.meta.env.VITE_BACKEND_URL || "";
+const TEST_ACTIVITY_IMAGE = "https://res.cloudinary.com/dzvcmydip/image/upload/v1775696643/img_prueba_actividad_ddyuzy.jpg";
+
+const formatLabel = (value = "") => {
+    const normalizedValue = value.toString().replaceAll("_", " ").trim().toLowerCase();
+    return normalizedValue ? normalizedValue.charAt(0).toUpperCase() + normalizedValue.slice(1) : "-";
+};
+
+const getCategoryRoute = (category = "") => {
+    const normalizedValue = category
+        .toString()
+        .trim()
+        .toLowerCase()
+        .replaceAll("_", "-")
+        .replaceAll(" ", "-");
+
+    return `/activities/${normalizedValue}`;
+};
+
+export const Profile = () => {
+    const { store } = useGlobalReducer();
+    const [activities, setActivities] = useState([]);
+    const [selectedActivity, setSelectedActivity] = useState(null);
+    const [loading, setLoading] = useState(Boolean(store.token));
+    const [error, setError] = useState(null);
+    const { favoritePendingId, favoriteFeedback, removeFavorite } = useActivityFavorites({
+        backendUrl,
+        onSuccess: (message) => toast.success(message),
+        onError: (message) => toast.error(message),
+    });
+
+    useEffect(() => {
+        const loadActivities = async () => {
+            if (!store.token) {
+                setLoading(false);
+                return;
+            }
+
+            try {
+                const response = await fetch(`${backendUrl}/api/activities`);
+
+                if (!response.ok) {
+                    throw new Error("No se pudieron cargar las actividades favoritas.");
+                }
+
+                const data = await response.json();
+                setActivities(Array.isArray(data) ? data : []);
+            } catch (fetchError) {
+                console.error("Error loading profile favorites:", fetchError);
+                setError("No se pudieron cargar los favoritos del perfil.");
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        loadActivities();
+    }, [store.token]);
+
+    const favoriteActivities = useMemo(() => {
+        const favoriteIds = new Set((store.favorities || []).map((favorite) => Number(favorite.activity_id)));
+
+        return activities
+            .filter((activity) => favoriteIds.has(Number(activity.id)))
+            .sort((firstActivity, secondActivity) => {
+                const firstName = firstActivity.name || "";
+                const secondName = secondActivity.name || "";
+                return firstName.localeCompare(secondName, "es");
+            });
+    }, [activities, store.favorities]);
+
+    useEffect(() => {
+        if (!selectedActivity) return;
+
+        const stillExists = favoriteActivities.some((activity) => activity.id === selectedActivity.id);
+
+        if (!stillExists) {
+            setSelectedActivity(null);
+        }
+    }, [favoriteActivities, selectedActivity]);
+
+    const handleRowKeyDown = (event, activity) => {
+        if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            setSelectedActivity(activity);
+        }
+    };
+
+    const confirmRemoveFavorite = (activity) => {
+        toast.error("¿Seguro que quieres eliminar este favorito?", {
+            description: activity.name,
+            duration: 6000,
+            action: {
+                label: "Eliminar",
+                onClick: () => removeFavorite(activity),
+            },
+            cancel: {
+                label: "Cancelar",
+            },
+        });
+    };
+
+    if (!store.token || !store.user) {
+        return (
+            <div className="profile-body">
+                <div className="profile-wrapper">
+                    <div className="profile-card profile-empty-card">
+                        <h1>Mi perfil</h1>
+                        <p>Inicia sesión para ver tu foto, tus datos y tus actividades favoritas.</p>
+                        <Link to="/login" className="profile-button">
+                            Ir a iniciar sesión
+                        </Link>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    return (
+        <div className="profile-body">
+            <Toaster position="top-center" richColors />
+            <div className="profile-wrapper">
+                <div className="profile-card profile-main-card">
+                    <div className="profile-header">
+                        <span className="profile-badge">Bangover · Mi perfil</span>
+                        <h1>Mi perfil</h1>
+                        <p>Consulta tu información personal y abre tus actividades favoritas desde la lista.</p>
+                    </div>
+
+                    <div className="profile-grid">
+                        <aside className="profile-user-card">
+                            <img
+                                src={store.user.avatar || "https://i.pravatar.cc/300"}
+                                alt={`Avatar de ${store.user.name}`}
+                                className="profile-avatar"
+                            />
+
+                            <div className="profile-user-summary">
+                                <h2>{store.user.name}</h2>
+                                <p>{store.user.code}</p>
+                            </div>
+
+                            <div className="profile-user-details">
+                                <div>
+                                    <span>FC</span>
+                                    <strong>{store.user.fc || "-"}</strong>
+                                </div>
+                            </div>
+                        </aside>
+
+                        <section className="profile-favorites-card">
+                            <div className="profile-favorites-header">
+                                <div>
+                                    <h2>Mis favoritos</h2>
+                                    <p>Haz clic en una actividad para abrir su ficha en un modal.</p>
+                                </div>
+                                <span className="profile-favorites-count">{favoriteActivities.length}</span>
+                            </div>
+
+                            {loading ? <p className="profile-message">Cargando favoritos...</p> : null}
+                            {error ? <p className="profile-message profile-error">{error}</p> : null}
+                            {favoriteFeedback ? (
+                                <p className={`profile-message ${favoriteFeedback.type === "error" ? "profile-error" : "profile-success"}`}>
+                                    {favoriteFeedback.text}
+                                </p>
+                            ) : null}
+
+                            {!loading && !error ? (
+                                favoriteActivities.length > 0 ? (
+                                    <>
+                                        <div className="profile-favorites-list-wrapper">
+                                            <table className="profile-favorites-list">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Código</th>
+                                                        <th>Nombre</th>
+                                                        <th>Categoría</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {favoriteActivities.map((activity) => (
+                                                        <tr
+                                                            key={activity.id}
+                                                            className={`profile-favorite-row${selectedActivity?.id === activity.id ? " profile-favorite-row-active" : ""}`}
+                                                            onClick={() => setSelectedActivity(activity)}
+                                                            onKeyDown={(event) => handleRowKeyDown(event, activity)}
+                                                            tabIndex={0}
+                                                        >
+                                                            <td>{activity.code}</td>
+                                                            <td>{activity.name}</td>
+                                                            <td>{formatLabel(activity.category)}</td>
+                                                        </tr>
+                                                    ))}
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                        {!selectedActivity ? (
+                                            <p className="profile-message profile-list-hint">
+                                                Selecciona una actividad para ver su imagen y descripción.
+                                            </p>
+                                        ) : null}
+                                    </>
+                                ) : (
+                                    <div className="profile-empty-favorites">
+                                        <p>Todavía no has guardado actividades favoritas.</p>
+                                        <Link to="/activities" className="profile-button">
+                                            Explorar actividades
+                                        </Link>
+                                    </div>
+                                )
+                            ) : null}
+                        </section>
+                    </div>
+                </div>
+            </div>
+
+            <ActivityModal
+                activity={selectedActivity}
+                imageUrl={TEST_ACTIVITY_IMAGE}
+                badgeLabel={selectedActivity ? formatLabel(selectedActivity.category) : ""}
+                onClose={() => setSelectedActivity(null)}
+                titleId="profile-activity-detail-title"
+                actionsClassName="profile-modal-actions"
+                actions={selectedActivity ? (
+                    <>
+                        <button
+                            type="button"
+                            className="activity-favorite-button activity-favorite-button-modal is-active"
+                            onClick={() => confirmRemoveFavorite(selectedActivity)}
+                            disabled={favoritePendingId === selectedActivity.id}
+                        >
+                            {favoritePendingId === selectedActivity.id
+                                ? "Actualizando..."
+                                : "♥ Quitar de favoritos"}
+                        </button>
+
+                        <Link
+                            to={getCategoryRoute(selectedActivity.category)}
+                            className="profile-link-button"
+                            onClick={() => setSelectedActivity(null)}
+                        >
+                            Ver categoría
+                        </Link>
+                    </>
+                ) : null}
+            />
+        </div>
+    );
+};
