@@ -21,6 +21,32 @@
   padding: 2.2rem 1.8rem;
 }
 
+.aboutus-image-frame {
+  width: 100%;
+  overflow: hidden;
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.28);
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.95));
+  margin-bottom: 1.5rem;
+}
+
+.aboutus-image-frame img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 460px;
+  object-fit: cover;
+}
+
+.aboutus-hero-image img {
+  object-position: center top;
+}
+
+.aboutus-rules-image {
+  margin-top: 1.25rem;
+}
+
 .Presentacion h1 {
   color: #f8fafc;
   font-size: 1.8rem;
@@ -53,6 +79,15 @@
 
   .aboutus-card {
     padding: 1.8rem 1.2rem;
+  }
+
+  .aboutus-image-frame {
+    border-radius: 16px;
+    margin-bottom: 1.1rem;
+  }
+
+  .aboutus-image-frame img {
+    max-height: 280px;
   }
 
   .Presentacion h1 {

@@ -6,6 +6,12 @@ export const AboutUs = () => {
         <div className="aboutus-body">
             <div className="aboutus-card-wrapper">
                 <div className="aboutus-card">
+                    <div className="aboutus-image-frame aboutus-hero-image">
+                        <img
+                            src="https://res.cloudinary.com/dzvcmydip/image/upload/v1775695853/AboutUs_gyhrf2.jpg"
+                            alt="Portada de Bangover About Us"
+                        />
+                    </div>
                     <div className="Presentacion">
                         <ul>
                             <li>REGISTRO DE FC</li>
@@ -21,6 +27,12 @@ export const AboutUs = () => {
                     <div className="cita_aboutUS">
                         <p>❝ Si es el elemento sucio el que da placer al acto de lujuria, entonces cuanto más sucio sea, más placentero será.
                             - Marqués de Sade.</p>
+                    </div>
+                    <div className="aboutus-image-frame aboutus-rules-image">
+                        <img
+                            src="https://res.cloudinary.com/dzvcmydip/image/upload/v1775695853/Rules_cwcq1y.jpg"
+                            alt="Reglas de Bangover"
+                        />
                     </div>
                     <div className="rules_aboutUS">
                         <ul>
@@ -41,13 +53,13 @@ export const AboutUs = () => {
                                 <p className="rule-title">Actividad</p>
                                 <p>Contamos con un grupo donde se comparten escritos. Publicar en él es obligatorio. Faltar una vez implica sanción; dos veces, expulsión. #Toosweet.</p>
                                 <ul>
-                                    <li>La finalidad del grupo On-rol es poder leernos entre todos. No estás obligado a leer a tus compañeros, pero si tienes un minuto, 
-                                    te invitamos a hacerlo y también a dejarles una reacción. No toma más de un segundo y puede animar a un futuro escritor a seguir escribiendo.</li>
+                                    <li>La finalidad del grupo On-rol es poder leernos entre todos. No estás obligado a leer a tus compañeros, pero si tienes un minuto,
+                                        te invitamos a hacerlo y también a dejarles una reacción. No toma más de un segundo y puede animar a un futuro escritor a seguir escribiendo.</li>
                                     <li>Se pide una actividad como mínimo para mantenerse dentro del proyecto, y esta no debe ser un drabble. #Kármika</li>
                                     <li>Es obligatorio que cada actividad esté acompañada de su respectivo hashtag y código personal.</li>
                                     <li>Si no usas página de respaldo, se solicita que, al momento de compartir las actividades en el grupo On-rol, estas se encuentren públicas.</li>
-                                    <li>Al final del bimestre, destacaremos a los tres (3) miembros con mayor puntaje; no obstante, nos limitaremos a premiar 
-                                    dos veces consecutivas a las mismas personas, independientemente de su posición en el podio.</li>
+                                    <li>Al final del bimestre, destacaremos a los tres (3) miembros con mayor puntaje; no obstante, nos limitaremos a premiar
+                                        dos veces consecutivas a las mismas personas, independientemente de su posición en el podio.</li>
                                 </ul>
                             </li>
                             <li>
@@ -55,10 +67,10 @@ export const AboutUs = () => {
                                 <p>Con aviso previo, tres semanas (3). Avisar de una ausencia una semana antes de la revisión no exime de la limpieza.</p>
                                 <ul>
                                     <li>Si su cuenta está inhabilitada, tienen dos días para volver a ingresar o informar de un cambio; de lo contrario, el lugar quedará libre.</li>
-                                    <li>Cambio de cuenta: puede realizarse en cualquier momento (una vez como máximo por periodo), 
-                                    siempre que se avise a la administración y se retire la cuenta anterior de los grupos.</li>
-                                    <li>Cambio de información (FC, nombre, HT personal): solo en el periodo establecido para esto (una vez por bimestre). 
-                                    Se avisará de este periodo junto con la fecha de revisión.</li>
+                                    <li>Cambio de cuenta: puede realizarse en cualquier momento (una vez como máximo por periodo),
+                                        siempre que se avise a la administración y se retire la cuenta anterior de los grupos.</li>
+                                    <li>Cambio de información (FC, nombre, HT personal): solo en el periodo establecido para esto (una vez por bimestre).
+                                        Se avisará de este periodo junto con la fecha de revisión.</li>
                                 </ul>
                             </li>
                             <li>
@@ -71,9 +83,9 @@ export const AboutUs = () => {
                             </li>
                             <li>
                                 <p className="rule-title">Prohibido involucrar usuarios</p>
-                                <p>Manejaremos el off-rol como el personaje fuera de la trama, no como usuario/dueño. Si presentas dificultad 
-                                para separar el juego del jugador, uno de los administradores podrá ponerse en contacto contigo para resolver 
-                                la discrepancia, ayudarte o solicitar tu retiro si es necesario.</p>
+                                <p>Manejaremos el off-rol como el personaje fuera de la trama, no como usuario/dueño. Si presentas dificultad
+                                    para separar el juego del jugador, uno de los administradores podrá ponerse en contacto contigo para resolver
+                                    la discrepancia, ayudarte o solicitar tu retiro si es necesario.</p>
                             </li>
                             <li>
                                 <p className="rule-title">Revisiones</p>
