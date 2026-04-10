@@ -4,6 +4,17 @@ export const Recordis = () => (
     <ActivityCategoryPage
         title="Recordis"
         categoryValue="recordis"
-        description="Esta categoría puede servir para conservar recuerdos, compilaciones y momentos destacados de la comunidad."
+        badgeNote="40 Pts."
+        description={
+            <>
+                “Recordar”, del latín <em>re-cordis</em>, significa literalmente “volver a pasar por el corazón”. Un concepto que invita a reflexionar sobre cómo los recuerdos no solo se alojan en la mente, sino que resuenan emocionalmente en lo más profundo de nosotros.
+                <br />
+                <br />
+                Este espacio no es solo para describir: es también para revivir, detallar y explorar aquello que nos mueve y nos define.
+                <br />
+                <br />
+                <strong>Nuestra regla:</strong> debe superar las 400 palabras.
+            </>
+        }
     />
 );

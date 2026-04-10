@@ -3,8 +3,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2rem 1rem;
-  color: #f8fafc;
+  padding: 2rem 1rem 1.1rem;
+  color: #f7e7e3;
 }
 
 .members-card-wrapper {
@@ -14,15 +14,23 @@
 
 .members-card {
   width: 100%;
-  background: rgba(12, 17, 30, 0.95);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.25);
+  background: linear-gradient(
+    160deg,
+    rgba(0, 0, 0, 0.97) 0%,
+    rgba(0, 0, 0, 0.93) 35%,
+    rgba(37, 1, 0, 0.95) 100%
+  );
+  border: 1px solid rgba(148, 5, 5, 0.3);
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(8px);
   border-radius: 28px;
   padding: 2.2rem 1.8rem;
 }
 
 .members-header h1 {
-  color: #f8fafc;
+  color: #fff3f0;
   font-size: 1.8rem;
   font-weight: 700;
   margin-bottom: 0.6rem;
@@ -31,7 +39,7 @@
 }
 
 .members-header p {
-  color: #cbd5e1;
+  color: #dbc3be;
   line-height: 1.6;
   margin-bottom: 1.5rem;
   text-align: center;
@@ -39,6 +47,10 @@
 
 .members-table-wrapper {
   overflow-x: auto;
+  border: 1px solid rgba(89, 69, 68, 0.3);
+  border-radius: 18px;
+  background: rgba(0, 0, 0, 0.22);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
 }
 
 .members-table {
@@ -49,7 +61,11 @@
 }
 
 .members-table thead {
-  background: rgba(30, 41, 59, 0.95);
+  background: linear-gradient(
+    135deg,
+    rgba(68, 0, 0, 0.96),
+    rgba(100, 2, 2, 0.95)
+  );
 }
 
 .members-table th,
@@ -59,41 +75,41 @@
 }
 
 .members-table th {
-  color: #f8fafc;
+  color: #fff3f0;
   font-weight: 700;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(148, 5, 5, 0.32);
 }
 
 .members-table td {
-  color: #cbd5e1;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  color: #ead8d4;
+  border-bottom: 1px solid rgba(89, 69, 68, 0.32);
 }
 
 .members-table tbody tr {
-  background: rgba(15, 23, 42, 0.75);
+  background: rgba(10, 0, 0, 0.82);
 }
 
 .members-table tbody tr:nth-child(even) {
-  background: rgba(30, 41, 59, 0.55);
+  background: rgba(37, 1, 0, 0.75);
 }
 
 .members-table tbody tr:hover {
-  background: rgba(51, 65, 85, 0.7);
+  background: rgba(68, 0, 0, 0.8);
 }
 
 .members-message {
-  color: #cbd5e1;
+  color: #dbc3be;
   text-align: center;
   margin: 1rem 0 0;
 }
 
 .members-error {
-  color: #fca5a5;
+  color: #ffb4b4;
 }
 
 @media (max-width: 576px) {
   .members-body {
-    padding: 1.2rem;
+    padding: 1.2rem 1rem 0.9rem;
   }
 
   .members-card {

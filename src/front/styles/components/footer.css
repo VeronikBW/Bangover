@@ -1,0 +1,21 @@
+.footer {
+  margin-top: 0.9rem;
+  padding: 1rem 0.75rem;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.94) 0%,
+    rgba(18, 0, 0, 0.92) 55%,
+    rgba(37, 1, 0, 0.9) 100%
+  );
+  border-top: 1px solid rgba(89, 69, 68, 0.35);
+  box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.22);
+  backdrop-filter: blur(6px);
+  color: #dbc3be;
+}
+
+.footer p {
+  margin: 0;
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+  color: #dbc3be;
+}

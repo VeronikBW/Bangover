@@ -4,6 +4,17 @@ export const SensibleContent = () => (
     <ActivityCategoryPage
         title="Sensible Content"
         categoryValue="sensible-content"
-        description="Es probable que los títulos no sean del agrado común, por lo mismo, lectores, vamos a pedir respeto para aquellos miembros que decidan escribir al respecto; y para los escritores, respeto y cuidado en la elección del lenguaje a utilizar. Se recomienda poner las advertencias pertinentes '+18' o '+21' según corresponda."
+        badgeNote="40 Pts."
+        description={
+            <>
+                Es posible que los títulos no sean del agrado común; por ello, se solicita respeto hacia quienes decidan escribir sobre estos temas, así como también hacia los autores, quienes deberán ser cuidadosos en la elección del lenguaje utilizado.
+                <br />
+                <br />
+                Se recomienda incluir las advertencias pertinentes, tales como <strong>“+18”</strong> o <strong>“+21”</strong>, según corresponda.
+                <br />
+                <br />
+                La extensión del texto es variable, con la única condición de que supere las <strong>500 palabras</strong>.
+            </>
+        }
     />
 );

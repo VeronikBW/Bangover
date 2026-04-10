@@ -46,8 +46,8 @@ export const Home = () => {
 								</button>
 							</div>
 							<div className="button-container facebook-button">
-								<button type="button" className="btn btn-dark" onClick={goToFacebook}>
-									<i class="fa-brands fa-facebook"></i>
+								<button type="button" className="btn btn-dark" onClick={goToFacebook} aria-label="Facebook">
+									<i className="fa-brands fa-facebook-f" aria-hidden="true"></i>
 								</button>
 							</div>
 						</div>

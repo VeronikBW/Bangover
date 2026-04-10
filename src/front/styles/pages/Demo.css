@@ -1,7 +1,76 @@
 .demo-page {
-  padding: 2rem;
+  min-height: calc(100vh - 4rem);
+  max-width: 920px;
+  margin: 1.5rem auto 0.8rem;
+  padding: 2rem 1rem 1rem;
+  color: #f7e7e3;
+}
+
+.demo-page .list-group {
+  border-radius: 22px;
+  overflow: hidden;
+  border: 1px solid rgba(89, 69, 68, 0.4);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
 }
 
 .demo-page .list-group-item {
-  transition: background 0.2s ease;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  background: rgba(0, 0, 0, 0.82) !important;
+  color: #ead8d4;
+  border: 0;
+  border-bottom: 1px solid rgba(89, 69, 68, 0.32);
+  padding: 1rem 1.1rem;
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.demo-page .list-group-item:nth-child(even) {
+  background: rgba(37, 1, 0, 0.75) !important;
+}
+
+.demo-page .list-group-item:hover {
+  background: rgba(68, 0, 0, 0.84) !important;
+}
+
+.demo-page a {
+  color: #fff0ec;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.demo-page a:hover {
+  color: #ffe1db;
+}
+
+.demo-page p {
+  margin: 0;
+  color: #dbc3be;
+}
+
+.demo-page .btn-success,
+.demo-page .btn-primary {
+  border: none;
+  border-radius: 999px;
+  color: #fff3f0;
+  background: linear-gradient(135deg, #440000, #940505);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
+}
+
+.demo-page .btn-success:hover,
+.demo-page .btn-primary:hover {
+  filter: brightness(1.05);
+}
+
+@media (max-width: 576px) {
+  .demo-page {
+    padding: 1.2rem 0.85rem 0.9rem;
+  }
+
+  .demo-page .list-group-item {
+    padding: 0.9rem;
+  }
 }

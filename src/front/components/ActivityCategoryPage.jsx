@@ -9,7 +9,7 @@ const TEST_ACTIVITY_IMAGE = "https://res.cloudinary.com/dzvcmydip/image/upload/v
 
 const normalizeCategory = (value = "") => value.toString().trim().toLowerCase();
 
-export const ActivityCategoryPage = ({ title, description, categoryValue }) => {
+export const ActivityCategoryPage = ({ title, description, categoryValue, badgeNote }) => {
     const [activities, setActivities] = useState([]);
     const [selectedActivity, setSelectedActivity] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -91,7 +91,10 @@ export const ActivityCategoryPage = ({ title, description, categoryValue }) => {
         <div className="activity-category-page">
             <div className="activity-category-card">
                 <div className="activity-category-intro">
-                    <span className="activity-category-badge">Bangover · Categoría</span>
+                    <div className="activity-category-badges">
+                        <span className="activity-category-badge">Bangover</span>
+                        {badgeNote ? <span className="activity-category-badge">{badgeNote}</span> : null}
+                    </div>
                     <h1>{title}</h1>
                     <p>{description}</p>
                 </div>
@@ -171,7 +174,7 @@ export const ActivityCategoryPage = ({ title, description, categoryValue }) => {
                                 </table>
                             </div>
 
-                            {selectedActivity ? (
+                            {selectedActivity && (
                                 <ActivityModal
                                     activity={selectedActivity}
                                     imageUrl={TEST_ACTIVITY_IMAGE}
@@ -194,10 +197,6 @@ export const ActivityCategoryPage = ({ title, description, categoryValue }) => {
                                         </button>
                                     }
                                 />
-                            ) : (
-                                <p className="activity-category-message activity-category-helper">
-                                    Selecciona una actividad de la lista para ver su imagen, nombre, código y descripción.
-                                </p>
                             )}
                         </>
                     ) : (

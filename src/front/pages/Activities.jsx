@@ -51,9 +51,6 @@ export const Activities = () => {
                 <div className="activities-card">
                     <div className="activities-header">
                         <h1>Categorías de actividades</h1>
-                        <p>
-                            Explora cada sección de Bangover desde estos accesos rápidos.
-                        </p>
                     </div>
 
                     <div className="activities-grid">

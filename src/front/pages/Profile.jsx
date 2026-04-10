@@ -9,6 +9,7 @@ import "../styles/pages/activities/ActivityCategory.css";
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL || "";
 const TEST_ACTIVITY_IMAGE = "https://res.cloudinary.com/dzvcmydip/image/upload/v1775696643/img_prueba_actividad_ddyuzy.jpg";
+const PROFILE_AVATAR_IMAGE = "https://res.cloudinary.com/dzvcmydip/image/upload/v1775254377/Logo_de_p%C3%A1gina_de_inicio_vmyrrk.png";
 
 const formatLabel = (value = "") => {
     const normalizedValue = value.toString().replaceAll("_", " ").trim().toLowerCase();
@@ -130,7 +131,7 @@ export const Profile = () => {
             <div className="profile-wrapper">
                 <div className="profile-card profile-main-card">
                     <div className="profile-header">
-                        <span className="profile-badge">Bangover · Mi perfil</span>
+                        <span className="profile-badge">Bangover </span>
                         <h1>Mi perfil</h1>
                         <p>Consulta tu información personal y abre tus actividades favoritas desde la lista.</p>
                     </div>
@@ -138,7 +139,7 @@ export const Profile = () => {
                     <div className="profile-grid">
                         <aside className="profile-user-card">
                             <img
-                                src={store.user.avatar || "https://i.pravatar.cc/300"}
+                                src={PROFILE_AVATAR_IMAGE}
                                 alt={`Avatar de ${store.user.name}`}
                                 className="profile-avatar"
                             />
@@ -160,7 +161,7 @@ export const Profile = () => {
                             <div className="profile-favorites-header">
                                 <div>
                                     <h2>Mis favoritos</h2>
-                                    <p>Haz clic en una actividad para abrir su ficha en un modal.</p>
+                                    <p>Haz clic en una actividad para ver su descripción</p>
                                 </div>
                                 <span className="profile-favorites-count">{favoriteActivities.length}</span>
                             </div>
@@ -203,15 +204,11 @@ export const Profile = () => {
                                             </table>
                                         </div>
 
-                                        {!selectedActivity ? (
-                                            <p className="profile-message profile-list-hint">
-                                                Selecciona una actividad para ver su imagen y descripción.
-                                            </p>
-                                        ) : null}
+
                                     </>
                                 ) : (
                                     <div className="profile-empty-favorites">
-                                        <p>Todavía no has guardado actividades favoritas.</p>
+                                        <p>Todavía no has guardado actividad en favoritos.</p>
                                         <Link to="/activities" className="profile-button">
                                             Explorar actividades
                                         </Link>

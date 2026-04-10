@@ -3,8 +3,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2rem 1rem;
-  color: #f8fafc;
+  padding: 2rem 1rem 1.1rem;
+  color: #f7e7e3;
 }
 
 .aboutus-card-wrapper {
@@ -14,9 +14,14 @@
 
 .aboutus-card {
   width: 100%;
-  background: rgba(12, 17, 30, 0.95);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.25);
+  background: linear-gradient(
+    160deg,
+    rgba(0, 0, 0, 0.97) 0%,
+    rgba(0, 0, 0, 0.93) 40%,
+    rgba(37, 1, 0, 0.95) 100%
+  );
+  border: 1px solid rgba(148, 5, 5, 0.3);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
   border-radius: 28px;
   padding: 2.2rem 1.8rem;
 }
@@ -25,9 +30,9 @@
   width: 100%;
   overflow: hidden;
   border-radius: 22px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.28);
-  background: linear-gradient(135deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.95));
+  border: 1px solid rgba(89, 69, 68, 0.45);
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.4);
+  background: linear-gradient(135deg, rgba(37, 1, 0, 0.9), rgba(0, 0, 0, 0.95));
   margin-bottom: 1.5rem;
 }
 
@@ -47,8 +52,12 @@
   margin-top: 1.25rem;
 }
 
+.Presentacion {
+  margin-bottom: 1.25rem;
+}
+
 .Presentacion h1 {
-  color: #f8fafc;
+  color: #fff3f0;
   font-size: 1.8rem;
   font-weight: 700;
   margin-bottom: 1.5rem;
@@ -56,25 +65,86 @@
   letter-spacing: 0.04em;
 }
 
+.Presentacion ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+}
+
+.Presentacion li {
+  padding: 0.45rem 0.85rem;
+  border-radius: 999px;
+  background: rgba(37, 1, 0, 0.78);
+  border: 1px solid rgba(89, 69, 68, 0.55);
+  color: #fff0ec;
+  font-size: 0.88rem;
+  letter-spacing: 0.05em;
+}
+
 .parrafo_aboutUS p {
-  color: #cbd5e1;
-  line-height: 1.6;
+  color: #ead8d4;
+  line-height: 1.7;
   margin-bottom: 1.5rem;
   text-align: justify;
 }
 
 .cita_aboutUS p {
-  color: #94a3b8;
+  color: #d2b7b2;
   font-style: italic;
   text-align: center;
   margin-top: 1.5rem;
   padding-top: 1rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(89, 69, 68, 0.4);
+}
+
+.rules_aboutUS {
+  margin-top: 1.5rem;
+}
+
+.rules_aboutUS > ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 1rem;
+}
+
+.rules_aboutUS > ul > li {
+  background: rgba(10, 0, 0, 0.68);
+  border: 1px solid rgba(89, 69, 68, 0.35);
+  border-radius: 20px;
+  padding: 1rem 1rem 0.85rem;
+}
+
+.rules_aboutUS p {
+  color: #dbc3be;
+  line-height: 1.6;
+  margin-bottom: 0.6rem;
+}
+
+.rule-title {
+  color: #fff3f0;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.rules_aboutUS ul ul {
+  margin: 0.25rem 0 0.4rem 1.15rem;
+  color: #ead8d4;
+}
+
+.rules_aboutUS ul ul li {
+  margin-bottom: 0.45rem;
+  line-height: 1.55;
 }
 
 @media (max-width: 576px) {
   .aboutus-body {
-    padding: 1.2rem;
+    padding: 1.2rem 1rem 0.9rem;
   }
 
   .aboutus-card {
