@@ -8,6 +8,12 @@ with youy database, for example: Import the price of bitcoin every night as 12am
 """
 
 DEMO_ACTIVITY_IMAGE = "https://res.cloudinary.com/dzvcmydip/image/upload/v1775696643/img_prueba_actividad_ddyuzy.jpg"
+SPECIAL_SUBCATEGORY_CONFIG = [
+    ("omegaverse", "Omegaverse"),
+    ("anais-nin", "ANAÏS NIN"),
+    ("circulo-de-los-celos", "Círculo de los celos"),
+    ("nos-pueden-ver", "¡Nos pueden ver!"),
+]
 CATEGORY_SAMPLE_CONFIG = {
     categoryActivity.DRABBLES: ("DR", "Drabbles"),
     categoryActivity.NON_SEX: ("NS", "Non Sex"),
@@ -22,9 +28,10 @@ CATEGORY_SAMPLE_CONFIG = {
 }
 
 
-def build_demo_description(category_label, index):
+def build_demo_description(category_label, index, subcategory_label=None):
+    category_prefix = f"{category_label} · {subcategory_label}" if subcategory_label else category_label
     return (
-        f"{category_label} de ejemplo #{index}. "
+        f"{category_prefix} de ejemplo #{index}. "
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. "
         "Praesent commodo, nibh a efficitur gravida, justo velit semper lorem, "
         "eget accumsan massa urna sed augue. Sed vitae sapien sed nibh iaculis "
@@ -66,18 +73,33 @@ def setup_commands(app):
 
         for category, (prefix, label) in CATEGORY_SAMPLE_CONFIG.items():
             created_for_category = 0
+            updated_for_category = 0
 
             for index in range(1, count_per_category + 1):
                 code = f"{prefix}-{index:03d}"
                 existing_activity = Activity.query.filter_by(code=code).first()
+                special_subcategory = None
+                special_label = None
+
+                if category == categoryActivity.SPECIAL:
+                    special_subcategory, special_label = SPECIAL_SUBCATEGORY_CONFIG[(
+                        index - 1) % len(SPECIAL_SUBCATEGORY_CONFIG)]
 
                 if existing_activity:
+                    if category == categoryActivity.SPECIAL and existing_activity.subcategory != special_subcategory:
+                        existing_activity.subcategory = special_subcategory
+                        existing_activity.name = f"{special_label} Ejemplo {index}"
+                        existing_activity.description = build_demo_description(
+                            label, index, special_label)
+                        updated_for_category += 1
                     continue
 
                 activity = Activity(
-                    name=f"{label} Ejemplo {index}",
+                    name=f"{special_label or label} Ejemplo {index}",
                     category=category,
-                    description=build_demo_description(label, index),
+                    subcategory=special_subcategory,
+                    description=build_demo_description(
+                        label, index, special_label),
                     image=DEMO_ACTIVITY_IMAGE,
                     code=code,
                 )
@@ -86,7 +108,7 @@ def setup_commands(app):
                 created_total += 1
 
             click.echo(
-                f"{label}: {created_for_category} actividades agregadas")
+                f"{label}: {created_for_category} actividades agregadas, {updated_for_category} actualizadas")
 
         db.session.commit()
         click.echo(

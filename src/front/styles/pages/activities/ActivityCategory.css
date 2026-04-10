@@ -82,6 +82,83 @@
   margin-bottom: 1rem;
 }
 
+.activity-subsections {
+  display: grid;
+  gap: 1rem;
+}
+
+.activity-subsection {
+  background: rgba(10, 0, 0, 0.3);
+  border: 1px solid rgba(89, 69, 68, 0.3);
+  border-radius: 18px;
+  padding: 1rem;
+}
+
+.activity-subsection-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.8rem;
+}
+
+.activity-subsection-heading {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.activity-subsection-title-row {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+}
+
+.activity-subsection-title {
+  margin: 0;
+  color: #fff3f0;
+  font-size: 1.05rem;
+  letter-spacing: 0.03em;
+}
+
+.activity-subsection-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  background: rgba(37, 1, 0, 0.88);
+  border: 1px solid rgba(89, 69, 68, 0.55);
+  color: #ead8d4;
+  font-size: 0.8rem;
+  letter-spacing: 0.03em;
+}
+
+.activity-subsection-description {
+  max-width: 680px;
+  margin: 0;
+  color: #dbc3be;
+  line-height: 1.65;
+}
+
+.activity-subsection-count {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  background: rgba(37, 1, 0, 0.88);
+  border: 1px solid rgba(89, 69, 68, 0.55);
+  color: #ead8d4;
+  font-size: 0.86rem;
+}
+
+.activity-subsection-empty {
+  margin: 0;
+  padding: 0.9rem 1rem;
+  border-radius: 14px;
+  background: rgba(37, 1, 0, 0.35);
+}
+
 .activity-category-count,
 .activity-category-hint {
   display: inline-flex;
@@ -447,6 +524,10 @@
   .activity-category-table td {
     padding: 0.8rem 0.75rem;
     font-size: 0.95rem;
+  }
+
+  .activity-subsection {
+    padding: 0.85rem;
   }
 
   .activity-detail-card .card-body {

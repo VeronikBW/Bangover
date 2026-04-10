@@ -15,8 +15,56 @@ from datetime import timedelta
 
 api = Blueprint('api', __name__)
 
+SPECIAL_SUBCATEGORY_ALIASES = {
+    "omegaverse": "omegaverse",
+    "anais nin": "anais-nin",
+    "anais-nin": "anais-nin",
+    "anaïs nin": "anais-nin",
+    "anaïs-nin": "anais-nin",
+    "circulo de los celos": "circulo-de-los-celos",
+    "círculo de los celos": "circulo-de-los-celos",
+    "circulo-de-los-celos": "circulo-de-los-celos",
+    "círculo-de-los-celos": "circulo-de-los-celos",
+    "nos pueden ver": "nos-pueden-ver",
+    "nos-pueden-ver": "nos-pueden-ver",
+    "¡nos pueden ver!": "nos-pueden-ver",
+    "!nos pueden ver!": "nos-pueden-ver",
+}
+
 # Allow CORS requests to this API
 CORS(api)
+
+
+def coerce_category(value):
+    if value is None or value == "":
+        return None
+
+    if isinstance(value, categoryActivity):
+        return value
+
+    normalized_value = str(value).strip().lower()
+
+    for category in categoryActivity:
+        valid_values = {
+            category.value,
+            category.name.lower(),
+            category.name.lower().replace("_", "-"),
+        }
+        if normalized_value in valid_values:
+            return category
+
+    raise ValueError("Invalid category value")
+
+
+def normalize_subcategory(value):
+    if value is None:
+        return None
+
+    normalized_value = str(value).strip().lower()
+    if not normalized_value:
+        return None
+
+    return SPECIAL_SUBCATEGORY_ALIASES.get(normalized_value)
 
 
 @api.route('/hello', methods=['POST', 'GET'])
@@ -190,7 +238,24 @@ def profile():
 
 @api.route('/activities', methods=['GET'])
 def get_activities():
-    activities = Activity.query.all()
+    query = Activity.query
+
+    category_param = request.args.get('category')
+    subcategory_param = request.args.get('subcategory')
+
+    if category_param:
+        try:
+            query = query.filter_by(category=coerce_category(category_param))
+        except ValueError:
+            return jsonify({"error": "Invalid category value"}), 400
+
+    if subcategory_param:
+        normalized_subcategory = normalize_subcategory(subcategory_param)
+        if normalized_subcategory is None:
+            return jsonify({"error": "Invalid subcategory value"}), 400
+        query = query.filter_by(subcategory=normalized_subcategory)
+
+    activities = query.all()
     activities_list = [activity.serialize() for activity in activities]
     return jsonify(activities_list), 200
 
@@ -215,10 +280,21 @@ def create_activity():
         data = {
             "name": data_form.get('name'),
             "category": data_form.get('category'),
+            "subcategory": data_form.get('subcategory'),
             "description": data_form.get('description'),
             "code": data_form.get('code'),
             "image_db": data_files.get('image'),
         }
+
+        category = coerce_category(data.get('category'))
+        if category is None:
+            return jsonify({"error": "Missing category"}), 400
+
+        normalized_subcategory = normalize_subcategory(data.get('subcategory'))
+        if data.get('subcategory') and normalized_subcategory is None:
+            return jsonify({"error": "Invalid subcategory value"}), 400
+        if category != categoryActivity.SPECIAL:
+            normalized_subcategory = None
 
         image = ""
 
@@ -228,7 +304,8 @@ def create_activity():
 
         new_activity = Activity(
             name=data.get('name'),
-            category=data.get('category'),
+            category=category,
+            subcategory=normalized_subcategory,
             description=data.get('description'),
             code=data.get('code'),
             image=image
@@ -271,8 +348,19 @@ def update_activity(activity_id):
         if data_form.get('name'):
             activity.name = data_form.get('name')
 
+        next_category = activity.category
         if data_form.get('category'):
-            activity.category = categoryActivity[data_form.get('category')]
+            next_category = coerce_category(data_form.get('category'))
+            activity.category = next_category
+
+        if data_form.get('subcategory') is not None:
+            normalized_subcategory = normalize_subcategory(
+                data_form.get('subcategory'))
+            if data_form.get('subcategory') and normalized_subcategory is None:
+                return jsonify({"error": "Invalid subcategory value"}), 400
+            activity.subcategory = normalized_subcategory if next_category == categoryActivity.SPECIAL else None
+        elif next_category != categoryActivity.SPECIAL:
+            activity.subcategory = None
 
         if data_form.get('description'):
             activity.description = data_form.get('description')

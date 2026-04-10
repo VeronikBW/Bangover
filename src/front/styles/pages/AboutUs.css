@@ -49,11 +49,21 @@
 }
 
 .aboutus-rules-image {
-  margin-top: 1.25rem;
+  margin-top: 2.5rem;
 }
 
 .Presentacion {
   margin-bottom: 1.25rem;
+}
+
+.cita_aboutUS {
+  padding-bottom: 1.25rem;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid rgba(89, 69, 68, 0.45);
+}
+
+.rules_aboutUS {
+  padding-top: 0.5rem;
 }
 
 .Presentacion h1 {
@@ -154,6 +164,10 @@
   .aboutus-image-frame {
     border-radius: 16px;
     margin-bottom: 1.1rem;
+  }
+
+  .aboutus-rules-image {
+    margin-top: 2rem;
   }
 
   .aboutus-image-frame img {

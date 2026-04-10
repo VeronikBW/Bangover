@@ -9,7 +9,13 @@ const TEST_ACTIVITY_IMAGE = "https://res.cloudinary.com/dzvcmydip/image/upload/v
 
 const normalizeCategory = (value = "") => value.toString().trim().toLowerCase();
 
-export const ActivityCategoryPage = ({ title, description, categoryValue, badgeNote }) => {
+export const ActivityCategoryPage = ({
+    title,
+    description,
+    categoryValue,
+    badgeNote,
+    subcategoryGroups = [],
+}) => {
     const [activities, setActivities] = useState([]);
     const [selectedActivity, setSelectedActivity] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -59,6 +65,48 @@ export const ActivityCategoryPage = ({ title, description, categoryValue, badgeN
             });
     }, [activities, categoryValue]);
 
+    const hasSubcategoryGroups = subcategoryGroups.length > 0;
+
+    const groupedActivities = useMemo(() => {
+        if (!hasSubcategoryGroups) return [];
+
+        const configuredGroups = subcategoryGroups.map((group) => ({
+            ...group,
+            activities: filteredActivities.filter(
+                (activity) => normalizeCategory(activity.subcategory) === normalizeCategory(group.value)
+            ),
+        }));
+
+        const knownGroupValues = new Set(
+            configuredGroups.map((group) => normalizeCategory(group.value))
+        );
+
+        const uncategorizedActivities = filteredActivities.filter((activity) => {
+            const normalizedSubcategory = normalizeCategory(activity.subcategory);
+            return normalizedSubcategory && !knownGroupValues.has(normalizedSubcategory);
+        });
+
+        if (uncategorizedActivities.length > 0) {
+            configuredGroups.push({
+                value: "sin-subcategoria",
+                label: "Sin subcategoría",
+                activities: uncategorizedActivities,
+            });
+        }
+
+        return configuredGroups;
+    }, [filteredActivities, hasSubcategoryGroups, subcategoryGroups]);
+
+    const selectedActivityBadgeLabel = useMemo(() => {
+        if (!selectedActivity || !hasSubcategoryGroups) return title;
+
+        const matchingGroup = groupedActivities.find((group) =>
+            group.activities.some((activity) => activity.id === selectedActivity.id)
+        );
+
+        return matchingGroup?.label || title;
+    }, [groupedActivities, hasSubcategoryGroups, selectedActivity, title]);
+
     useEffect(() => {
         if (!selectedActivity) return;
 
@@ -86,6 +134,52 @@ export const ActivityCategoryPage = ({ title, description, categoryValue, badgeN
         event.stopPropagation();
         toggleFavorite(activity);
     };
+
+    const renderActivityTable = (activitiesToRender) => (
+        <div className="activity-category-table-wrapper">
+            <table className="activity-category-table">
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Nombre</th>
+                        <th className="activity-category-favorite-col">Favorito</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {activitiesToRender.map((activity) => (
+                        <tr
+                            key={activity.id}
+                            className={`activity-category-row${selectedActivity?.id === activity.id ? " activity-category-row-active" : ""}`}
+                            onClick={() => handleSelectActivity(activity)}
+                            onKeyDown={(event) => handleRowKeyDown(event, activity)}
+                            tabIndex={0}
+                        >
+                            <td>{activity.code}</td>
+                            <td>{activity.name}</td>
+                            <td className="activity-category-favorite-cell">
+                                <button
+                                    type="button"
+                                    className={`activity-favorite-button${isFavorite(activity.id) ? " is-active" : ""}`}
+                                    onClick={(event) => handleFavoriteClick(event, activity)}
+                                    disabled={favoritePendingId === activity.id || !token}
+                                    aria-label={`${isFavorite(activity.id) ? "Quitar de" : "Guardar en"} favoritos ${activity.name}`}
+                                    title={
+                                        !token
+                                            ? "Inicia sesión para guardar favoritos"
+                                            : isFavorite(activity.id)
+                                                ? "Quitar de favoritos"
+                                                : "Guardar en favoritos"
+                                    }
+                                >
+                                    {favoritePendingId === activity.id ? "…" : isFavorite(activity.id) ? "♥" : "♡"}
+                                </button>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        </div>
+    );
 
     return (
         <div className="activity-category-page">
@@ -128,57 +222,48 @@ export const ActivityCategoryPage = ({ title, description, categoryValue, badgeN
                 ) : null}
 
                 {!loading && !error ? (
-                    filteredActivities.length > 0 ? (
+                    hasSubcategoryGroups || filteredActivities.length > 0 ? (
                         <>
-                            <div className="activity-category-table-wrapper">
-                                <table className="activity-category-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Código</th>
-                                            <th>Nombre</th>
-                                            <th className="activity-category-favorite-col">Favorito</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {filteredActivities.map((activity) => (
-                                            <tr
-                                                key={activity.id}
-                                                className={`activity-category-row${selectedActivity?.id === activity.id ? " activity-category-row-active" : ""}`}
-                                                onClick={() => handleSelectActivity(activity)}
-                                                onKeyDown={(event) => handleRowKeyDown(event, activity)}
-                                                tabIndex={0}
-                                            >
-                                                <td>{activity.code}</td>
-                                                <td>{activity.name}</td>
-                                                <td className="activity-category-favorite-cell">
-                                                    <button
-                                                        type="button"
-                                                        className={`activity-favorite-button${isFavorite(activity.id) ? " is-active" : ""}`}
-                                                        onClick={(event) => handleFavoriteClick(event, activity)}
-                                                        disabled={favoritePendingId === activity.id || !token}
-                                                        aria-label={`${isFavorite(activity.id) ? "Quitar de" : "Guardar en"} favoritos ${activity.name}`}
-                                                        title={
-                                                            !token
-                                                                ? "Inicia sesión para guardar favoritos"
-                                                                : isFavorite(activity.id)
-                                                                    ? "Quitar de favoritos"
-                                                                    : "Guardar en favoritos"
-                                                        }
-                                                    >
-                                                        {favoritePendingId === activity.id ? "…" : isFavorite(activity.id) ? "♥" : "♡"}
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
+                            {hasSubcategoryGroups ? (
+                                <div className="activity-subsections">
+                                    {groupedActivities.map((group) => (
+                                        <section key={group.value} className="activity-subsection">
+                                            <div className="activity-subsection-header">
+                                                <div className="activity-subsection-heading">
+                                                    <div className="activity-subsection-title-row">
+                                                        <h2 className="activity-subsection-title">{group.label}</h2>
+                                                        {group.badgeNote ? (
+                                                            <span className="activity-subsection-badge">{group.badgeNote}</span>
+                                                        ) : null}
+                                                    </div>
+                                                    {group.description ? (
+                                                        <p className="activity-subsection-description">{group.description}</p>
+                                                    ) : null}
+                                                </div>
+                                                <span className="activity-subsection-count">
+                                                    {group.activities.length} actividad{group.activities.length === 1 ? "" : "es"}
+                                                </span>
+                                            </div>
+
+                                            {group.activities.length > 0 ? (
+                                                renderActivityTable(group.activities)
+                                            ) : (
+                                                <p className="activity-category-message activity-subsection-empty">
+                                                    Todavía no hay actividades registradas en esta subcategoría.
+                                                </p>
+                                            )}
+                                        </section>
+                                    ))}
+                                </div>
+                            ) : (
+                                renderActivityTable(filteredActivities)
+                            )}
 
                             {selectedActivity && (
                                 <ActivityModal
                                     activity={selectedActivity}
                                     imageUrl={TEST_ACTIVITY_IMAGE}
-                                    badgeLabel={title}
+                                    badgeLabel={selectedActivityBadgeLabel}
                                     onClose={() => setSelectedActivity(null)}
                                     titleId="activity-detail-title"
                                     actionsClassName="activity-detail-actions activity-detail-actions-bottom"

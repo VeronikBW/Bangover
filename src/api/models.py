@@ -66,6 +66,8 @@ class Activity(db.Model):
         String(120), unique=False, nullable=False)
     category: Mapped[categoryActivity] = mapped_column(
         db.Enum(categoryActivity), nullable=False)
+    subcategory: Mapped[str | None] = mapped_column(
+        String(100), unique=False, nullable=True)
     description: Mapped[str] = mapped_column(
         String(1000), unique=False, nullable=True)
     image: Mapped[str] = mapped_column(
@@ -80,6 +82,7 @@ class Activity(db.Model):
             "id": self.id,
             "name": self.name,
             "category": self.category.value,
+            "subcategory": self.subcategory,
             "description": self.description,
             "image": self.image,
             "code": self.code,
