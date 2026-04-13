@@ -1,5 +1,5 @@
 import "../styles/pages/Members.css";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
@@ -7,6 +7,14 @@ export const Members = () => {
   const [members, setMembers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const sortedMembers = useMemo(() => {
+    return [...members].sort((firstMember, secondMember) => {
+      const firstName = (firstMember.name || "").toLowerCase();
+      const secondName = (secondMember.name || "").toLowerCase();
+      return firstName.localeCompare(secondName, "es");
+    });
+  }, [members]);
 
   useEffect(() => {
     const loadMembers = async () => {
@@ -39,6 +47,14 @@ export const Members = () => {
             <p>Consulta el nombre y FC de cada usuario registrado en Bangover.</p>
           </div>
 
+          {!loading && !error ? (
+            <div className="members-summary">
+              <span className="members-count">
+                {members.length} miembro{members.length === 1 ? "" : "s"}
+              </span>
+            </div>
+          ) : null}
+
           {loading ? <p className="members-message">Cargando miembros...</p> : null}
           {error ? <p className="members-message members-error">{error}</p> : null}
 
@@ -54,7 +70,7 @@ export const Members = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {members.map((member) => (
+                    {sortedMembers.map((member) => (
                       <tr key={member.id}>
                         <td>{member.code}</td>
                         <td>{member.name}</td>

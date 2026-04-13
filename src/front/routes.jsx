@@ -22,6 +22,13 @@ import { Quotes } from "./pages/activities/Quotes";
 import { Recordis } from "./pages/activities/Recordis";
 import { SensibleContent } from "./pages/activities/SensibleContent";
 import { Special } from "./pages/activities/Special";
+import { AdminRoute } from "./components/AdminRoute";
+import { AdminDashboard } from "./pages/AdminDashboard";
+import { AdminUsersRegister } from "./pages/AdminUsersRegister";
+import { AdminUsersList } from "./pages/AdminUsersList";
+import { AdminActivitiesRegister } from "./pages/AdminActivitiesRegister";
+import { AdminActivitiesList } from "./pages/AdminActivitiesList";
+import { AdminActivitiesCategory } from "./pages/AdminActivitiesCategory";
 
 
 
@@ -54,6 +61,15 @@ export const router = createBrowserRouter(
       <Route path="/activities/recordis" element={<Recordis />} />
       <Route path="/activities/sensible-content" element={<SensibleContent />} />
       <Route path="/activities/special" element={<Special />} />
+
+      <Route element={<AdminRoute />}>
+        <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/admin/users/new" element={<AdminUsersRegister />} />
+        <Route path="/admin/users" element={<AdminUsersList />} />
+        <Route path="/admin/activities/new" element={<AdminActivitiesRegister />} />
+        <Route path="/admin/activities" element={<AdminActivitiesList />} />
+        <Route path="/admin/activities/:category" element={<AdminActivitiesCategory />} />
+      </Route>
     </Route>
   )
 );

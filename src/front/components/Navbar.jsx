@@ -32,6 +32,10 @@ export const Navbar = () => {
 		handleNavigate("/profile");
 	};
 
+	const goToAdmin = () => {
+		handleNavigate("/admin");
+	};
+
 	const handleLogout = () => {
 		localStorage.removeItem("token");
 		localStorage.removeItem("user");
@@ -110,6 +114,11 @@ export const Navbar = () => {
 						{store.token && location.pathname !== "/profile" ? (
 							<button type="button" className="btn btn-outline-light btn-navbar" onClick={goToProfile}>
 								Mi perfil
+							</button>
+						) : null}
+						{store.token && store.user?.role === "admin" && !location.pathname.startsWith("/admin") ? (
+							<button type="button" className="btn btn-outline-light btn-navbar" onClick={goToAdmin}>
+								Admin
 							</button>
 						) : null}
 						{!store.token ? (

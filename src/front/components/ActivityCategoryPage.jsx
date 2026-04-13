@@ -59,9 +59,7 @@ export const ActivityCategoryPage = ({
         return activities
             .filter((activity) => normalizeCategory(activity.category) === normalizedCategory)
             .sort((firstActivity, secondActivity) => {
-                const firstCode = firstActivity.code || "";
-                const secondCode = secondActivity.code || "";
-                return firstCode.localeCompare(secondCode, "es", { numeric: true });
+                return Number(firstActivity.id || 0) - Number(secondActivity.id || 0);
             });
     }, [activities, categoryValue]);
 
