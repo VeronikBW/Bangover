@@ -21,12 +21,6 @@ services:
         sync: false
       - key: PYTHON_VERSION
         value: 3.13.2
-      - key: CLOUDINARY_CLOUD_NAME
-        sync: false
-      - key: CLOUDINARY_API_KEY
-        sync: false
-      - key: CLOUDINARY_API_SECRET
-        sync: false
       - key: DATABASE_URL # Render PostgreSQL database
         fromDatabase:
           name: postgresql-trapezoidal-42170

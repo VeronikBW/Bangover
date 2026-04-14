@@ -8,7 +8,6 @@ from flask_cors import CORS
 from api.models import User, Activity, Favorite, roleUser, statusUser, categoryActivity
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
-import cloudinary.uploader as uploader
 from base64 import b64encode
 import os
 from datetime import timedelta
@@ -96,13 +95,11 @@ def get_users():
 def register_user():
 
     data_form = request.form
-    data_files = request.files
 
     name = data_form.get('name')
     code = data_form.get('code') or data_form.get('nickname')
     fc = data_form.get('fc')
     password = data_form.get('password')
-    avatar_db = data_files.get('avatar')
 
     if not all([name, code, fc, password]):
         return jsonify({"error": "Missing required fields"}), 400
@@ -119,10 +116,6 @@ def register_user():
     hashed_password = generate_password_hash(password)
 
     avatar = "https://i.pravatar.cc/300"
-
-    if avatar_db is not None:
-        avatar = uploader.upload(avatar_db)
-        avatar = avatar["secure_url"]
 
     rol = "USER"
     if code == "Saret" or code == "Andrew":
@@ -284,7 +277,6 @@ def get_activity(activity_id):
 def create_activity():
     try:
         data_form = request.form
-        data_files = request.files
 
         data = {
             "name": data_form.get('name'),
@@ -292,7 +284,6 @@ def create_activity():
             "subcategory": data_form.get('subcategory'),
             "description": data_form.get('description'),
             "code": data_form.get('code'),
-            "image_db": data_files.get('image'),
         }
 
         category = coerce_category(data.get('category'))
@@ -305,19 +296,13 @@ def create_activity():
         if category != categoryActivity.SPECIAL:
             normalized_subcategory = None
 
-        image = ""
-
-        if data.get("image_db") is not None:
-            image = uploader.upload(data.get("image_db"))
-            image = image["secure_url"]
-
         new_activity = Activity(
             name=data.get('name'),
             category=category,
             subcategory=normalized_subcategory,
             description=data.get('description'),
             code=data.get('code'),
-            image=image
+            image=""
         )
 
         db.session.add(new_activity)
@@ -352,7 +337,6 @@ def update_activity(activity_id):
             return jsonify({"error": "Activity not found"}), 404
 
         data_form = request.form
-        data_files = request.files
 
         if data_form.get('name'):
             activity.name = data_form.get('name')
@@ -376,11 +360,6 @@ def update_activity(activity_id):
 
         if data_form.get('code'):
             activity.code = data_form.get('code')
-
-        image_db = data_files.get('image')
-        if image_db is not None:
-            image = uploader.upload(image_db)
-            activity.image = image["secure_url"]
 
         db.session.commit()
         return jsonify({"message": "Activity updated successfully"}), 200
