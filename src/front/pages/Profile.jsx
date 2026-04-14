@@ -8,7 +8,18 @@ import "../styles/pages/Profile.css";
 import "../styles/pages/activities/ActivityCategory.css";
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL || "";
-const TEST_ACTIVITY_IMAGE = "https://res.cloudinary.com/dzvcmydip/image/upload/v1775696643/img_prueba_actividad_ddyuzy.jpg";
+const CATEGORY_IMAGES = {
+    "drabbles": "https://res.cloudinary.com/dzvcmydip/image/upload/v1776136938/Actividad_drabble_yjwcvw.jpg",
+    "non-sex": "https://res.cloudinary.com/dzvcmydip/image/upload/v1776136935/actividad_non_sex_bfk529.jpg",
+    "quotes": "https://res.cloudinary.com/dzvcmydip/image/upload/v1776136934/Actividad_quotes_ahr162.jpg",
+    "sensible-content": "https://res.cloudinary.com/dzvcmydip/image/upload/v1776136935/Actividad_s_content_hjnqbl.jpg",
+    "explicit": "https://res.cloudinary.com/dzvcmydip/image/upload/v1776136934/Actividad_explicit_xwnklw.jpg",
+    "agnus-dei": "https://res.cloudinary.com/dzvcmydip/image/upload/v1776136938/Actividad_agnus_dei_xe4qhu.jpg",
+    "special": "https://res.cloudinary.com/dzvcmydip/image/upload/v1776136937/Actividad_special_dyheuk.jpg",
+    "recordis": "https://res.cloudinary.com/dzvcmydip/image/upload/v1776136936/Actividad_re_cordis_vaje4s.jpg",
+    "gallery": "https://res.cloudinary.com/dzvcmydip/image/upload/v1775254377/Logo_de_p%C3%A1gina_de_inicio_vmyrrk.png",
+    "music": "https://res.cloudinary.com/dzvcmydip/image/upload/v1775254377/Logo_de_p%C3%A1gina_de_inicio_vmyrrk.png",
+};
 const PROFILE_AVATAR_IMAGE = "https://res.cloudinary.com/dzvcmydip/image/upload/v1775254377/Logo_de_p%C3%A1gina_de_inicio_vmyrrk.png";
 
 const formatLabel = (value = "") => {
@@ -47,7 +58,9 @@ export const Profile = () => {
             }
 
             try {
-                const response = await fetch(`${backendUrl}/api/activities`);
+                const response = await fetch(`${backendUrl}/api/activities`, {
+                    headers: { Authorization: `Bearer ${store.token}` },
+                });
 
                 if (!response.ok) {
                     throw new Error("No se pudieron cargar las actividades favoritas.");
@@ -222,7 +235,7 @@ export const Profile = () => {
 
             <ActivityModal
                 activity={selectedActivity}
-                imageUrl={TEST_ACTIVITY_IMAGE}
+                imageUrl={selectedActivity ? CATEGORY_IMAGES[selectedActivity.category?.toString().trim().toLowerCase()] : undefined}
                 badgeLabel={selectedActivity ? formatLabel(selectedActivity.category) : ""}
                 onClose={() => setSelectedActivity(null)}
                 titleId="profile-activity-detail-title"

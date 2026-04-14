@@ -1,3 +1,73 @@
+.members-banner-frame {
+  width: 100%;
+  overflow: hidden;
+  border-radius: 22px;
+  margin-bottom: 1.2rem;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.4);
+}
+
+.members-banner-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 320px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.members-admin-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  background: linear-gradient(
+    160deg,
+    rgba(68, 0, 0, 0.92),
+    rgba(15, 0, 0, 0.97)
+  );
+  border: 1px solid rgba(148, 5, 5, 0.4);
+  border-radius: 22px;
+  overflow: hidden;
+  margin-bottom: 1.4rem;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.5);
+}
+
+.members-admin-avatar {
+  width: 100%;
+  height: auto;
+  max-width: 320px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+  border-radius: 0;
+  flex-shrink: 0;
+}
+
+.members-admin-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 1.2rem 1.4rem 1.4rem;
+  width: 100%;
+}
+
+.members-admin-name {
+  color: #fff3f0;
+  font-weight: 700;
+  font-size: 1.15rem;
+  text-align: center;
+}
+
+.members-admin-role {
+  color: #e07070;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-align: center;
+}
+
 .members-body {
   min-height: calc(100vh - 4rem);
   display: flex;
@@ -125,9 +195,153 @@
   color: #ffb4b4;
 }
 
+.members-banner-frame-bottom {
+  margin-top: 1.4rem;
+}
+
+.members-entry-card {
+  background: linear-gradient(
+    160deg,
+    rgba(0, 0, 0, 0.97) 0%,
+    rgba(0, 0, 0, 0.93) 35%,
+    rgba(37, 1, 0, 0.95) 100%
+  );
+  border: 1px solid rgba(148, 5, 5, 0.3);
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  border-radius: 28px;
+  padding: 2.2rem 1.8rem;
+  margin-top: 1.2rem;
+}
+
+.members-entry-text {
+  color: #dbc3be;
+  line-height: 1.7;
+  margin-bottom: 1rem;
+  text-align: justify;
+}
+
+.members-entry-topics {
+  list-style: none;
+  padding: 0;
+  margin: 1.6rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+}
+
+.members-entry-topic-title {
+  color: #fff3f0;
+  font-weight: 700;
+  font-size: 0.97rem;
+  margin-bottom: 0.35rem;
+}
+
+.members-entry-topic-body {
+  color: #dbc3be;
+  line-height: 1.7;
+  text-align: justify;
+}
+
+.members-entry-warning {
+  color: #e07070;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  text-align: center;
+  border-top: 1px solid rgba(148, 5, 5, 0.25);
+  padding-top: 1.2rem;
+  margin-top: 0.4rem;
+}
+
+.members-ficha-card {
+  background: linear-gradient(
+    160deg,
+    rgba(0, 0, 0, 0.97) 0%,
+    rgba(0, 0, 0, 0.93) 35%,
+    rgba(37, 1, 0, 0.95) 100%
+  );
+  border: 1px solid rgba(148, 5, 5, 0.3);
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  border-radius: 28px;
+  padding: 2.2rem 1.8rem;
+  margin-top: 1.2rem;
+}
+
+.members-ficha-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.members-ficha-item {
+  color: #dbc3be;
+  font-size: 0.97rem;
+  line-height: 1.6;
+}
+
+.members-grupos-card {
+  background: linear-gradient(
+    160deg,
+    rgba(0, 0, 0, 0.97) 0%,
+    rgba(0, 0, 0, 0.93) 35%,
+    rgba(37, 1, 0, 0.95) 100%
+  );
+  border: 1px solid rgba(148, 5, 5, 0.3);
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  border-radius: 28px;
+  padding: 2.2rem 1.8rem;
+  margin-top: 1.2rem;
+}
+
+.members-grupos-list {
+  list-style: none;
+  padding: 0;
+  margin: 1.4rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.members-grupos-item {
+  color: #dbc3be;
+  font-size: 0.97rem;
+  line-height: 1.6;
+}
+
+.members-grupos-link {
+  color: #ffffff;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.members-grupos-link:hover {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
 @media (max-width: 576px) {
   .members-body {
     padding: 1.2rem 1rem 0.9rem;
+  }
+
+  .members-banner-frame {
+    border-radius: 16px;
+  }
+
+  .members-admin-card {
+    border-radius: 16px;
+  }
+
+  .members-admin-avatar {
+    max-height: 280px;
   }
 
   .members-card {

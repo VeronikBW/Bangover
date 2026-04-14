@@ -91,6 +91,8 @@ def get_users():
 
 
 @api.route('/register', methods=['POST'])
+@jwt_required()
+@admin_required
 def register_user():
 
     data_form = request.form
@@ -147,6 +149,7 @@ def register_user():
 
 
 @api.route('/users/<int:user_id>', methods=['GET'])
+@jwt_required()
 def get_user(user_id):
     user = User.query.get(user_id)
     if user:
@@ -156,6 +159,8 @@ def get_user(user_id):
 
 
 @api.route('/users/<int:user_id>', methods=['DELETE'])
+@jwt_required()
+@admin_required
 def delete_user(user_id):
     user = User.query.get(user_id)
     if not user:
@@ -167,6 +172,8 @@ def delete_user(user_id):
 
 
 @api.route('/users/<int:user_id>', methods=['PUT'])
+@jwt_required()
+@admin_required
 def update_user(user_id):
     user = User.query.get(user_id)
     if not user:
@@ -237,6 +244,7 @@ def profile():
 # ACTIVITIES
 
 @api.route('/activities', methods=['GET'])
+@jwt_required()
 def get_activities():
     query = Activity.query
 
@@ -261,6 +269,7 @@ def get_activities():
 
 
 @api.route('/activities/<int:activity_id>', methods=['GET'])
+@jwt_required()
 def get_activity(activity_id):
     activity = Activity.query.get(activity_id)
     if activity:

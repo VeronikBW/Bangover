@@ -93,7 +93,9 @@ export const AdminActivitiesCategory = () => {
                 setIsLoading(true);
                 setError("");
 
-                const response = await fetch(`${backendUrl}/api/activities?category=${encodeURIComponent(category)}`);
+                const response = await fetch(`${backendUrl}/api/activities?category=${encodeURIComponent(category)}`, {
+                    headers: { Authorization: `Bearer ${store.token}` },
+                });
                 const data = await response.json().catch(() => []);
 
                 if (!response.ok) {

@@ -15,7 +15,7 @@ export const Home = () => {
 	}
 
 	const goToFacebook = () => {
-		window.open("https://www.facebook.com/bangoverpg", "_blank");
+		window.open("https://www.facebook.com/bangoverpg", "_blank", "noopener,noreferrer");
 	}
 
 	return (

@@ -5,7 +5,19 @@ import { ActivityModal } from "./ActivityModal";
 import "../styles/pages/activities/ActivityCategory.css";
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL || "";
-const TEST_ACTIVITY_IMAGE = "https://res.cloudinary.com/dzvcmydip/image/upload/v1775696643/img_prueba_actividad_ddyuzy.jpg";
+
+const CATEGORY_IMAGES = {
+    "drabbles": "https://res.cloudinary.com/dzvcmydip/image/upload/v1776136938/Actividad_drabble_yjwcvw.jpg",
+    "non-sex": "https://res.cloudinary.com/dzvcmydip/image/upload/v1776136935/actividad_non_sex_bfk529.jpg",
+    "quotes": "https://res.cloudinary.com/dzvcmydip/image/upload/v1776136934/Actividad_quotes_ahr162.jpg",
+    "sensible-content": "https://res.cloudinary.com/dzvcmydip/image/upload/v1776136935/Actividad_s_content_hjnqbl.jpg",
+    "explicit": "https://res.cloudinary.com/dzvcmydip/image/upload/v1776136934/Actividad_explicit_xwnklw.jpg",
+    "agnus-dei": "https://res.cloudinary.com/dzvcmydip/image/upload/v1776136938/Actividad_agnus_dei_xe4qhu.jpg",
+    "special": "https://res.cloudinary.com/dzvcmydip/image/upload/v1776136937/Actividad_special_dyheuk.jpg",
+    "recordis": "https://res.cloudinary.com/dzvcmydip/image/upload/v1776136936/Actividad_re_cordis_vaje4s.jpg",
+    "gallery": "https://res.cloudinary.com/dzvcmydip/image/upload/v1775254377/Logo_de_p%C3%A1gina_de_inicio_vmyrrk.png",
+    "music": "https://res.cloudinary.com/dzvcmydip/image/upload/v1775254377/Logo_de_p%C3%A1gina_de_inicio_vmyrrk.png",
+};
 
 const normalizeCategory = (value = "") => value.toString().trim().toLowerCase();
 
@@ -14,6 +26,7 @@ export const ActivityCategoryPage = ({
     description,
     categoryValue,
     badgeNote,
+    wordNote,
     subcategoryGroups = [],
 }) => {
     const [activities, setActivities] = useState([]);
@@ -34,7 +47,10 @@ export const ActivityCategoryPage = ({
     useEffect(() => {
         const loadActivities = async () => {
             try {
-                const response = await fetch(`${backendUrl}/api/activities`);
+                const headers = {};
+                if (token) headers["Authorization"] = `Bearer ${token}`;
+
+                const response = await fetch(`${backendUrl}/api/activities`, { headers });
 
                 if (!response.ok) {
                     throw new Error("No se pudo obtener la lista de actividades");
@@ -186,6 +202,7 @@ export const ActivityCategoryPage = ({
                     <div className="activity-category-badges">
                         <span className="activity-category-badge">Bangover</span>
                         {badgeNote ? <span className="activity-category-badge">{badgeNote}</span> : null}
+                        {wordNote ? <span className="activity-category-badge">{wordNote}</span> : null}
                     </div>
                     <h1>{title}</h1>
                     <p>{description}</p>
@@ -233,6 +250,9 @@ export const ActivityCategoryPage = ({
                                                         {group.badgeNote ? (
                                                             <span className="activity-subsection-badge">{group.badgeNote}</span>
                                                         ) : null}
+                                                        {group.wordNote ? (
+                                                            <span className="activity-subsection-badge">{group.wordNote}</span>
+                                                        ) : null}
                                                     </div>
                                                     {group.description ? (
                                                         <p className="activity-subsection-description">{group.description}</p>
@@ -260,7 +280,7 @@ export const ActivityCategoryPage = ({
                             {selectedActivity && (
                                 <ActivityModal
                                     activity={selectedActivity}
-                                    imageUrl={TEST_ACTIVITY_IMAGE}
+                                    imageUrl={CATEGORY_IMAGES[normalizeCategory(categoryValue)]}
                                     badgeLabel={selectedActivityBadgeLabel}
                                     onClose={() => setSelectedActivity(null)}
                                     titleId="activity-detail-title"
