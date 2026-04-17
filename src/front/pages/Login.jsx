@@ -1,7 +1,7 @@
 import "../styles/pages/Login.css";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useGlobalReducer from "../hooks/useGlobalReducer";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Toaster, toast } from "sonner";
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
@@ -14,8 +14,16 @@ const initialUser = {
 export const Login = () => {
     const { dispatch } = useGlobalReducer();
     const navigate = useNavigate();
+    const location = useLocation();
     const [user, setUser] = useState(initialUser);
     const [isLoading, setIsLoading] = useState(false);
+
+    useEffect(() => {
+        if (location.state?.sessionExpired) {
+            toast.error("Tu sesión expiró. Inicia sesión nuevamente.");
+            navigate(location.pathname, { replace: true, state: {} });
+        }
+    }, [location, navigate]);
 
     const handleChange = ({ target }) => {
         setUser({

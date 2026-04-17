@@ -82,6 +82,23 @@
   max-width: 900px;
 }
 
+.members-page-card {
+  width: 100%;
+  background: linear-gradient(
+    160deg,
+    rgba(0, 0, 0, 0.97) 0%,
+    rgba(0, 0, 0, 0.93) 40%,
+    rgba(37, 1, 0, 0.95) 100%
+  );
+  border: 1px solid rgba(148, 5, 5, 0.3);
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(8px);
+  border-radius: 28px;
+  padding: 2.2rem 1.8rem;
+}
+
 .members-card {
   width: 100%;
   background: linear-gradient(
@@ -330,6 +347,10 @@
 @media (max-width: 576px) {
   .members-body {
     padding: 1.2rem 1rem 0.9rem;
+  }
+
+  .members-page-card {
+    padding: 1.4rem 1rem;
   }
 
   .members-banner-frame {
