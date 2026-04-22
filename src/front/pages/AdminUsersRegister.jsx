@@ -81,7 +81,7 @@ export const AdminUsersRegister = () => {
                         Crea un nuevo usuario desde este panel. La imagen se asigna automáticamente por defecto.
                     </p>
 
-                    <form className="admin-tools-form" onSubmit={handleSubmit} aria-busy={isSubmitting}>
+                    <form className="admin-tools-form" onSubmit={handleSubmit} aria-busy={isSubmitting} autoComplete="off">
                         <div className="admin-tools-form-grid">
                             <div className="admin-tools-field">
                                 <label htmlFor="admin-user-name">Nombre</label>
@@ -89,6 +89,7 @@ export const AdminUsersRegister = () => {
                                     id="admin-user-name"
                                     type="text"
                                     name="name"
+                                    autoComplete="off"
                                     value={formState.name}
                                     onChange={handleChange}
                                     required
@@ -103,6 +104,7 @@ export const AdminUsersRegister = () => {
                                     id="admin-user-code"
                                     type="text"
                                     name="code"
+                                    autoComplete="off"
                                     value={formState.code}
                                     onChange={handleChange}
                                     required
@@ -117,6 +119,7 @@ export const AdminUsersRegister = () => {
                                     id="admin-user-fc"
                                     type="text"
                                     name="fc"
+                                    autoComplete="off"
                                     value={formState.fc}
                                     onChange={handleChange}
                                     required
@@ -131,6 +134,7 @@ export const AdminUsersRegister = () => {
                                     id="admin-user-password"
                                     type="password"
                                     name="password"
+                                    autoComplete="new-password"
                                     value={formState.password}
                                     onChange={handleChange}
                                     required

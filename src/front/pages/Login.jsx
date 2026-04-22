@@ -109,7 +109,7 @@ export const Login = () => {
         <div className="login-body">
             <Toaster position="top-center" />
             <div className="login-card-wrapper">
-                <form className="login-card" onSubmit={handleSubmit} aria-busy={isLoading}>
+                <form className="login-card" onSubmit={handleSubmit} aria-busy={isLoading} autoComplete="on">
                     <h1 className="login-title text-center">Inicia sesión</h1>
                     <div className="form-group mb-4">
                         <label htmlFor="forEmail">Código</label>
@@ -119,6 +119,7 @@ export const Login = () => {
                             id="forEmail"
                             placeholder="#Código"
                             name="code"
+                            autoComplete="username"
                             value={user.code}
                             onChange={handleChange}
                             disabled={isLoading}
@@ -133,6 +134,7 @@ export const Login = () => {
                             id="forPassword"
                             placeholder="Contraseña"
                             name="password"
+                            autoComplete="current-password"
                             value={user.password}
                             onChange={handleChange}
                             disabled={isLoading}

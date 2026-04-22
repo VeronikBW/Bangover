@@ -124,7 +124,7 @@ export const AdminActivitiesRegister = () => {
                     <h1>Registrar actividades</h1>
                     <p>Crea una nueva actividad. La subcategoría solo aplica a la categoría Special.</p>
 
-                    <form className="admin-tools-form" onSubmit={handleSubmit} aria-busy={isSubmitting}>
+                    <form className="admin-tools-form" onSubmit={handleSubmit} aria-busy={isSubmitting} autoComplete="off">
                         <div className="admin-tools-form-grid">
 
                             <div className="admin-tools-field">
@@ -133,6 +133,7 @@ export const AdminActivitiesRegister = () => {
                                     id="act-name"
                                     type="text"
                                     name="name"
+                                    autoComplete="off"
                                     value={formState.name}
                                     onChange={handleChange}
                                     required
@@ -147,6 +148,7 @@ export const AdminActivitiesRegister = () => {
                                     id="act-code"
                                     type="text"
                                     name="code"
+                                    autoComplete="off"
                                     value={formState.code}
                                     onChange={handleChange}
                                     required
@@ -162,6 +164,7 @@ export const AdminActivitiesRegister = () => {
                                 <select
                                     id="act-category"
                                     name="category"
+                                    autoComplete="off"
                                     value={formState.category}
                                     onChange={handleChange}
                                     required
@@ -187,6 +190,7 @@ export const AdminActivitiesRegister = () => {
                                 <select
                                     id="act-subcategory"
                                     name="subcategory"
+                                    autoComplete="off"
                                     value={formState.subcategory}
                                     onChange={handleChange}
                                     disabled={isSubmitting || !isSpecial}
@@ -208,6 +212,7 @@ export const AdminActivitiesRegister = () => {
                             <textarea
                                 id="act-description"
                                 name="description"
+                                autoComplete="off"
                                 value={formState.description}
                                 onChange={handleChange}
                                 disabled={isSubmitting}
