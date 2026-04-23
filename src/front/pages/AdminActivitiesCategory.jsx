@@ -436,6 +436,7 @@ export const AdminActivitiesCategory = () => {
                                         id="admin-edit-activity-name"
                                         type="text"
                                         name="name"
+                                        autoComplete="off"
                                         value={editForm.name}
                                         onChange={handleEditChange}
                                         disabled={isSaving}
@@ -448,6 +449,7 @@ export const AdminActivitiesCategory = () => {
                                         id="admin-edit-activity-code"
                                         type="text"
                                         name="code"
+                                        autoComplete="off"
                                         value={editForm.code}
                                         onChange={handleEditChange}
                                         className={codeError ? "admin-tools-input-error" : ""}
@@ -462,6 +464,7 @@ export const AdminActivitiesCategory = () => {
                                         <select
                                             id="admin-edit-activity-subcategory"
                                             name="subcategory"
+                                            autoComplete="off"
                                             value={editForm.subcategory}
                                             onChange={handleEditChange}
                                             className="admin-tools-select"
@@ -482,6 +485,7 @@ export const AdminActivitiesCategory = () => {
                                 <textarea
                                     id="admin-edit-activity-description"
                                     name="description"
+                                    autoComplete="off"
                                     value={editForm.description}
                                     onChange={handleEditChange}
                                     className="admin-tools-textarea"

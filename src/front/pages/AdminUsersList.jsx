@@ -177,6 +177,7 @@ export const AdminUsersList = () => {
                                 <input
                                     type="search"
                                     placeholder="Buscar por código o nombre..."
+                                    autoComplete="off"
                                     value={searchQuery}
                                     onChange={({ target }) => setSearchQuery(target.value)}
                                     className="admin-tools-search-input"
@@ -191,7 +192,7 @@ export const AdminUsersList = () => {
                                         <tr>
                                             <th>Código</th>
                                             <th>Nombre</th>
-                                            <th>FB</th>
+                                            <th>FC</th>
                                             <th>Acción</th>
                                         </tr>
                                     </thead>
@@ -206,6 +207,7 @@ export const AdminUsersList = () => {
                                                             <input
                                                                 type="text"
                                                                 name="code"
+                                                                autoComplete="off"
                                                                 value={editForm.code}
                                                                 onChange={handleEditChange}
                                                                 className="admin-tools-table-input"
@@ -220,6 +222,7 @@ export const AdminUsersList = () => {
                                                             <input
                                                                 type="text"
                                                                 name="name"
+                                                                autoComplete="off"
                                                                 value={editForm.name}
                                                                 onChange={handleEditChange}
                                                                 className="admin-tools-table-input"
@@ -234,6 +237,7 @@ export const AdminUsersList = () => {
                                                             <input
                                                                 type="text"
                                                                 name="fc"
+                                                                autoComplete="off"
                                                                 value={editForm.fc}
                                                                 onChange={handleEditChange}
                                                                 className="admin-tools-table-input"
