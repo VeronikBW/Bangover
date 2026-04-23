@@ -1,5 +1,4 @@
 import { ActivityCategoryPage } from "../../components/ActivityCategoryPage";
-
 export const Explicit = () => (
     <ActivityCategoryPage
         title="Explicit"

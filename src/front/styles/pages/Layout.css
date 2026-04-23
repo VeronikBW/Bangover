@@ -2,3 +2,140 @@
   min-height: calc(100vh - 160px);
   padding-top: 72px;
 }
+
+.age-gate-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(148, 5, 5, 0.24), transparent 46%),
+    radial-gradient(circle at 85% 80%, rgba(89, 69, 68, 0.24), transparent 50%),
+    linear-gradient(145deg, #070303 0%, #160101 52%, #320202 100%);
+}
+
+.global-age-gate-card {
+  width: min(100%, 740px);
+  border-radius: 24px;
+  border: 1px solid rgba(148, 5, 5, 0.4);
+  background: linear-gradient(
+    160deg,
+    rgba(0, 0, 0, 0.98) 0%,
+    rgba(9, 0, 0, 0.95) 38%,
+    rgba(37, 1, 0, 0.94) 72%,
+    rgba(68, 0, 0, 0.88) 100%
+  );
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.58);
+  padding: 2.2rem 1.8rem;
+  text-align: center;
+  color: #f7e7e3;
+}
+
+.global-age-gate-badges {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin-bottom: 0.95rem;
+}
+
+.global-age-gate-badges span {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 5, 5, 0.28);
+  background: rgba(89, 69, 68, 0.25);
+  color: #f0d7d1;
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+}
+
+.global-age-gate-card h1 {
+  margin: 0 0 0.8rem;
+  color: #fff3f0;
+  font-size: 2rem;
+}
+
+.global-age-gate-card p {
+  margin: 0 auto;
+  max-width: 620px;
+  color: #dfc8c2;
+  line-height: 1.7;
+}
+
+.global-age-gate-actions {
+  margin-top: 1.35rem;
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.global-age-gate-confirm {
+  border: 0;
+  border-radius: 999px;
+  padding: 0.82rem 1.45rem;
+  font-weight: 700;
+  color: #fff3f0;
+  background: linear-gradient(135deg, #440000, #940505);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    filter 0.2s ease;
+}
+
+.global-age-gate-confirm:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.05);
+  box-shadow: 0 12px 26px rgba(148, 5, 5, 0.28);
+}
+
+.global-age-gate-exit {
+  border: 1px solid rgba(148, 5, 5, 0.36);
+  border-radius: 999px;
+  padding: 0.82rem 1.45rem;
+  font-weight: 700;
+  color: #f1d7d2;
+  background: rgba(37, 1, 0, 0.8);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    filter 0.2s ease;
+}
+
+.global-age-gate-exit:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.05);
+  box-shadow: 0 12px 26px rgba(148, 5, 5, 0.2);
+}
+
+.global-age-gate-note {
+  margin-top: 0.95rem !important;
+  color: #d2b0ab !important;
+  font-size: 0.92rem;
+}
+
+@media (max-width: 576px) {
+  .global-age-gate-card {
+    padding: 1.6rem 1rem;
+  }
+
+  .global-age-gate-card h1 {
+    font-size: 1.65rem;
+  }
+
+  .global-age-gate-confirm {
+    width: 100%;
+  }
+
+  .global-age-gate-exit {
+    width: 100%;
+  }
+}
