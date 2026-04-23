@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import ScrollToTop from "../components/ScrollToTop";
 import { Navbar } from "../components/Navbar";
@@ -7,6 +8,25 @@ import useGlobalReducer from "../hooks/useGlobalReducer";
 import "../styles/pages/Layout.css";
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL || "";
+const AGE_VERIFICATION_KEY = "bangover-age-verification";
+const AGE_VERIFICATION_TTL_MS = 7 * 24 * 60 * 60 * 1000;
+
+const hasValidAgeVerification = () => {
+    try {
+        const rawVerification = localStorage.getItem(AGE_VERIFICATION_KEY);
+        if (!rawVerification) return false;
+
+        const parsedVerification = JSON.parse(rawVerification);
+        const verifiedAt = Number(parsedVerification?.verifiedAt || 0);
+
+        if (!verifiedAt) return false;
+
+        return Date.now() - verifiedAt < AGE_VERIFICATION_TTL_MS;
+    } catch (error) {
+        console.error("Error checking age verification:", error);
+        return false;
+    }
+};
 
 const clearExpiredSession = (dispatch, navigate) => {
     localStorage.removeItem("token");
@@ -42,6 +62,19 @@ const getTokenExpirationTime = (token) => {
 export const Layout = () => {
     const { store, dispatch } = useGlobalReducer();
     const navigate = useNavigate();
+    const [isAgeVerified, setIsAgeVerified] = useState(() => hasValidAgeVerification());
+
+    const confirmAgeVerification = () => {
+        localStorage.setItem(
+            AGE_VERIFICATION_KEY,
+            JSON.stringify({ verifiedAt: Date.now() })
+        );
+        setIsAgeVerified(true);
+    };
+
+    const leaveSite = () => {
+        window.location.replace("https://www.google.com");
+    };
 
     useEffect(() => {
         const loadFavorites = async () => {
@@ -97,6 +130,46 @@ export const Layout = () => {
 
         return () => window.clearTimeout(timeoutId);
     }, [store.token, dispatch, navigate]);
+
+    if (!isAgeVerified) {
+        return (
+            <ScrollToTop>
+                <div className="layout-page age-gate-page" aria-labelledby="global-age-gate-title">
+                    <main className="global-age-gate-card" role="dialog" aria-modal="true">
+                        <div className="global-age-gate-badges">
+                            <span>Bangover</span>
+                            <span>Acceso restringido</span>
+                            <span>+18</span>
+                        </div>
+                        <h1 id="global-age-gate-title">Verificación de edad</h1>
+                        <p>
+                            Bangover contiene contenido para personas adultas. Para continuar,
+                            confirma que tienes al menos 18 años.
+                        </p>
+                        <div className="global-age-gate-actions">
+                            <button
+                                type="button"
+                                className="global-age-gate-confirm"
+                                onClick={confirmAgeVerification}
+                            >
+                                Soy mayor de 18 años
+                            </button>
+                            <button
+                                type="button"
+                                className="global-age-gate-exit"
+                                onClick={leaveSite}
+                            >
+                                Salir del sitio
+                            </button>
+                        </div>
+                        <p className="global-age-gate-note">
+                            Esta confirmación se volverá a solicitar dentro de 7 días.
+                        </p>
+                    </main>
+                </div>
+            </ScrollToTop>
+        );
+    }
 
     return (
         <ScrollToTop>
