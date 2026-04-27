@@ -1,81 +1,88 @@
-# WebApp boilerplate with React JS and Flask API
+# Bangover: Private Narrative Challenge Manager
 
-Build web applications using React.js for the front end and python/flask for your backend API.
+**Bangover** es una plataforma web Full Stack propietaria diseñada para la gestión y administración de retos narrativos dentro de una comunidad exclusiva de escritores. El sistema ha sido construido bajo un modelo de **privacidad total**, donde la seguridad de los datos y la restricción de acceso son los pilares fundamentales.
 
-- Documentation can be found here: https://4geeks.com/docs/start/react-flask-template
-- Here is a video on [how to use this template](https://www.loom.com/share/f37c6838b3f1496c95111e515e83dd9b)
-- Integrated with Pipenv for package managing.
-- Fast deployment to Render [in just a few steps here](https://4geeks.com/docs/start/deploy-to-render-com).
-- Use of .env file.
-- SQLAlchemy integration for database abstraction.
+## 🚀 Solución de Ingeniería
+Este proyecto fue desarrollado para resolver la necesidad de un espacio seguro y privado para la creación literaria. A diferencia de las plataformas sociales abiertas, Bangover implementa un ecosistema cerrado donde el contenido es invisible para el público general.
 
-### 1) Installation:
+### Pilares del Proyecto:
+* **Acceso Restringido (Gatekeeping):** Implementación de un sistema de registro controlado donde solo el administrador puede validar y dar de alta a nuevos perfiles.
+* **Arquitectura de Privacidad:** Lógica de negocio robusta que asegura que los retos y actividades solo sean accesibles para usuarios con sesiones activas y permisos verificados.
+* **Gestión de Activos Digitales:** Integración de servicios en la nube para el manejo eficiente de perfiles y recursos multimedia.
 
-> If you use Github Codespaces (recommended) or Gitpod this template will already come with Python, Node and the Posgres Database installed. If you are working locally make sure to install Python 3.10, Node 
+---
 
-It is recomended to install the backend first, make sure you have Python 3.10, Pipenv and a database engine (Posgress recomended)
+## 🛠️ Stack Tecnológico
 
-1. Install the python packages: `$ pipenv install`
-2. Create a .env file based on the .env.example: `$ cp .env.example .env`
-3. Install your database engine and create your database, depending on your database you have to create a DATABASE_URL variable with one of the possible values, make sure you replace the valudes with your database information:
+| Capa | Tecnología |
+| :--- | :--- |
+| **Frontend** | React.js (Context API para manejo de estado global) |
+| **Backend** | Python (Estructura modular para escalabilidad) |
+| **Base de Datos** | SQL (Modelado relacional para perfiles y desafíos) |
+| **Cloud Services** | Cloudinary (Optimización y almacenamiento de imágenes) |
 
-| Engine    | DATABASE_URL                                        |
-| --------- | --------------------------------------------------- |
-| SQLite    | sqlite:////test.db                                  |
-| MySQL     | mysql://username:password@localhost:port/example    |
-| Postgress | postgres://username:password@localhost:5432/example |
+---
 
-4. Migrate the migrations: `$ pipenv run migrate` (skip if you have not made changes to the models on the `./src/api/models.py`)
-5. Run the migrations: `$ pipenv run upgrade`
-6. Run the application: `$ pipenv run start`
+## ✨ Funcionalidades Destacadas
 
-> Note: Codespaces users can connect to psql by typing: `psql -h localhost -U gitpod example`
+* **Sistema de Roles (RBAC):** Diferenciación clara entre privilegios de Administrador (gestión de usuarios y retos) y Usuarios (participación y lectura).
+* **Vistas Protegidas:** Sistema de ruteo inteligente que protege la integridad del contenido frente a accesos no autorizados.
+* **Dashboard Personalizado:** Interfaz dinámica que permite a cada escritor gestionar su perfil y seguir su progreso en los retos narrativos.
+* **Diseño Exclusivo:** Interfaz de usuario (UI) minimalista y funcional, optimizada para la lectura y la interacción literaria.
 
-### Undo a migration
+---
 
-You are also able to undo a migration by running
+## 📈 Desarrollo y Metodología
+Este proyecto demuestra competencia técnica en áreas críticas del desarrollo moderno:
+* **Seguridad:** Validación de identidad y protección de rutas tanto en cliente como en servidor.
+* **Integración de APIs:** Implementación exitosa de servicios externos para la gestión de medios.
+* **Clean Code:** Organización de código enfocada en el mantenimiento a largo plazo y la eficiencia en la carga de datos.
 
-```sh
-$ pipenv run downgrade
-```
+---
 
-### Backend Populate Table Users
 
-To insert test users in the database execute the following command:
+<br>
+<hr>
+<br>
 
-```sh
-$ flask insert-test-users 5
-```
+# Bangover: Private Narrative Challenge Manager (English Version)
 
-And you will see the following message:
+**Bangover** is a proprietary Full Stack web platform designed for managing and administering narrative challenges within an exclusive writers' community. The system is built under a **total privacy** model, where data security and access restriction are the core pillars.
 
-```
-  Creating test users
-  test_user1@test.com created.
-  test_user2@test.com created.
-  test_user3@test.com created.
-  test_user4@test.com created.
-  test_user5@test.com created.
-  Users created successfully!
-```
+## 🚀 Engineering Solution
+This project was developed to address the need for a secure and private space for literary creation. Unlike open social platforms, Bangover implements a closed ecosystem where content remains invisible to the general public.
 
-### **Important note for the database and the data inside it**
+### Project Pillars:
+* **Gatekeeping:** Implementation of a controlled registration system where only the administrator can validate and onboard new profiles.
+* **Privacy Architecture:** Robust business logic ensuring that challenges and activities are only accessible to users with active sessions and verified permissions.
+* **Digital Asset Management:** Cloud services integration for efficient handling of profiles and multimedia resources.
 
-Every Github codespace environment will have **its own database**, so if you're working with more people eveyone will have a different database and different records inside it. This data **will be lost**, so don't spend too much time manually creating records for testing, instead, you can automate adding records to your database by editing ```commands.py``` file inside ```/src/api``` folder. Edit line 32 function ```insert_test_data``` to insert the data according to your model (use the function ```insert_test_users``` above as an example). Then, all you need to do is run ```pipenv run insert-test-data```.
+---
 
-### Front-End Manual Installation:
+## 🛠️ Tech Stack
 
--   Make sure you are using node version 20 and that you have already successfully installed and runned the backend.
+| Layer | Technology |
+| :--- | :--- |
+| **Frontend** | React.js (Context API for global state management) |
+| **Backend** | Python (Modular structure for scalability) |
+| **Database** | SQL (Relational modeling for profiles and challenges) |
+| **Cloud Services** | Cloudinary (Image optimization and storage) |
 
-1. Install the packages: `$ npm install`
-2. Start coding! start the webpack dev server `$ npm run start`
+---
 
-## Publish your website!
+## ✨ Key Features
 
-This boilerplate it's 100% read to deploy with Render.com and Heroku in a matter of minutes. Please read the [official documentation about it](https://4geeks.com/docs/start/deploy-to-render-com).
+* **Role-Based Access Control (RBAC):** Clear distinction between Administrator privileges (user and challenge management) and User privileges (participation and reading).
+* **Protected Views:** Intelligent routing system that safeguards content integrity against unauthorized access.
+* **Personalized Dashboard:** Dynamic interface allowing each writer to manage their profile and track progress in narrative challenges.
+* **Exclusive Design:** Minimalist and functional UI optimized for reading and literary interaction.
 
-### Contributors
+---
 
-This template was built as part of the 4Geeks Academy [Coding Bootcamp](https://4geeksacademy.com/us/coding-bootcamp) by [Alejandro Sanchez](https://twitter.com/alesanchezr) and many other contributors. Find out more about our [Full Stack Developer Course](https://4geeksacademy.com/us/coding-bootcamps/part-time-full-stack-developer), and [Data Science Bootcamp](https://4geeksacademy.com/us/coding-bootcamps/datascience-machine-learning).
+## 📈 Development & Methodology
+This project demonstrates technical proficiency in critical areas of modern development:
+* **Security:** Identity validation and route protection on both client and server sides.
+* **API Integration:** Successful implementation of third-party services for media management.
+* **Clean Code:** Code organization focused on long-term maintenance and data loading efficiency.
 
-You can find other templates and resources like this at the [school github page](https://github.com/4geeksacademy/).
+---
