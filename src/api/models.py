@@ -69,7 +69,7 @@ class Activity(db.Model):
     subcategory: Mapped[str | None] = mapped_column(
         String(100), unique=False, nullable=True)
     description: Mapped[str] = mapped_column(
-        String(1000), unique=False, nullable=True)
+        db.Text, unique=False, nullable=True)
     image: Mapped[str] = mapped_column(
         String(250), unique=False, nullable=True)
     code: Mapped[str] = mapped_column(String(50), unique=True, nullable=False)
