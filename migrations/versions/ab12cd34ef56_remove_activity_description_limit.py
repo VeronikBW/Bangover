@@ -1,7 +1,7 @@
 """Remove activity description length limit
 
 Revision ID: ab12cd34ef56
-Revises: c7f4e2a1b9d0
+Revises: f3b2a1c4d5e6
 Create Date: 2026-05-02 00:00:00.000000
 
 """
@@ -11,7 +11,7 @@ import sqlalchemy as sa
 
 # revision identifiers, used by Alembic.
 revision = 'ab12cd34ef56'
-down_revision = 'c7f4e2a1b9d0'
+down_revision = 'f3b2a1c4d5e6'
 branch_labels = None
 depends_on = None
 
