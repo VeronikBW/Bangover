@@ -1,5 +1,6 @@
 import "../styles/pages/Members.css";
 import { useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
@@ -7,6 +8,12 @@ export const Members = () => {
   const [members, setMembers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const navigate = useNavigate();
+
+  const goToAboutUs = () => {
+    navigate("/about-us");
+  };
 
   const sortedMembers = useMemo(() => {
     return [...members]
@@ -204,6 +211,11 @@ export const Members = () => {
             <p className="members-entry-warning">
               Tras ser aceptada tu ficha dispondrás de 12 horas para pedir los ingresos a los grupos, de lo contrario tu cupo será liberado.
             </p>
+          </div>
+          <div className="page-navigation-wrapper">
+            <button type="button" className="btn btn-dark page-navigation-button" onClick={goToAboutUs}>
+              Ir a About Us
+            </button>
           </div>
 
         </div>

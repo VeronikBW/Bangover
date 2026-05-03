@@ -1,6 +1,12 @@
 import "../styles/pages/AboutUs.css";
+import { useNavigate } from "react-router-dom";
 
 export const AboutUs = () => {
+    const navigate = useNavigate();
+
+    const goToMembers = () => {
+        navigate("/members");
+    };
 
     return (
         <div className="aboutus-body">
@@ -95,6 +101,11 @@ export const AboutUs = () => {
                                 <p className="rule-title">Nos reservamos el derecho de admisión</p>
                             </li>
                         </ul>
+                    </div>
+                    <div className="page-navigation-wrapper">
+                        <button type="button" className="btn btn-dark page-navigation-button" onClick={goToMembers}>
+                            Ir a FC
+                        </button>
                     </div>
                 </div>
             </div>

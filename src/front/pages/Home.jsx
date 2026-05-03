@@ -32,7 +32,7 @@ export const Home = () => {
 						<div className="title-container">
 							<h1 className="display-4 fw-bold">BANGOVER</h1>
 						</div>
-						<div className="description-container mt-3 mb-4">
+						<div className="description-container mt-3 mb-4"> 
 							<p>PROYECTO NARRRATIVO +18</p>
 							<p>BIMESTRAL</p>
 						</div>

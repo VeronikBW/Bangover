@@ -178,3 +178,31 @@
     font-size: 1.5rem;
   }
 }
+
+.page-navigation-wrapper {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.page-navigation-button {
+  padding: 0.9rem 2rem;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(148, 5, 5, 0.9));
+  border: 1px solid rgba(148, 5, 5, 0.75);
+  color: #fff3f0;
+  letter-spacing: 0.06em;
+  font-weight: 700;
+  border-radius: 999px;
+  transition: all 0.25s ease;
+}
+
+.page-navigation-button:hover,
+.page-navigation-button:focus {
+  transform: translateY(-2px) scale(1.01);
+  background: linear-gradient(
+    135deg,
+    rgba(37, 1, 0, 0.95),
+    rgba(148, 5, 5, 0.88)
+  );
+  border-color: rgba(255, 255, 255, 0.15);
+}
