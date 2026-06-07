@@ -15,7 +15,7 @@ const initialFormState = {
 
 export const AdminUsersRegister = () => {
     const navigate = useNavigate();
-    const store = useGlobalReducer();
+    const { store } = useGlobalReducer();
     const [formState, setFormState] = useState(initialFormState);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
