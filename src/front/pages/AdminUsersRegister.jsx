@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Toaster, toast } from "sonner";
+import useGlobalReducer from "../hooks/useGlobalReducer";
 import "../styles/pages/AdminTools.css";
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL || "";
@@ -14,6 +15,7 @@ const initialFormState = {
 
 export const AdminUsersRegister = () => {
     const navigate = useNavigate();
+    const store = useGlobalReducer();
     const [formState, setFormState] = useState(initialFormState);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -44,6 +46,9 @@ export const AdminUsersRegister = () => {
 
             const response = await fetch(`${backendUrl}/api/register`, {
                 method: "POST",
+                headers: {
+                    Authorization: `Bearer ${store.token}`,
+                },
                 body: formData,
             });
 
