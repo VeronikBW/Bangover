@@ -2,10 +2,12 @@ import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { Toaster, toast } from "sonner";
 import "../styles/pages/AdminTools.css";
+import useGlobalReducer from "../hooks/useGlobalReducer";
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL || "";
 
 export const AdminUsersList = () => {
+    const { store } = useGlobalReducer();
     const [users, setUsers] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState("");
@@ -98,6 +100,7 @@ export const AdminUsersList = () => {
                 method: "PUT",
                 headers: {
                     "content-type": "application/json",
+                    Authorization: `Bearer ${store.token}`,
                 },
                 body: JSON.stringify(payload),
             });
@@ -141,6 +144,9 @@ export const AdminUsersList = () => {
         try {
             const response = await fetch(`${backendUrl}/api/users/${userId}`, {
                 method: "DELETE",
+                headers: {
+                    Authorization: `Bearer ${store.token}`,
+                },
             });
 
             if (!response.ok) {
